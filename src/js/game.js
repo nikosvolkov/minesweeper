@@ -4,7 +4,7 @@ const columns = 10;
 
 let flagEnabled = false;
 
-const minesCount = 15;
+const minesCount = 20;
 const minesLocation = []
 
 const flagsLeft = minesCount // goal is to set all flags to the tiles with mines
@@ -21,6 +21,7 @@ const createBoard = () =>{
     for(let c = 0; c < columns; c++){
       const boardCell = document.createElement('div')
       boardCell.id = `${r}-${c}`;
+      boardCell.classList.add('board-cell')
       boardCell.addEventListener('click', cellClicked)
       boardDiv.append(boardCell)
     }
@@ -56,6 +57,14 @@ function cellClicked() {
     }else{
       cell.innerText = '';
     }
+    return
+  }
+  cell.classList.add('cell-clicked')
+
+  if (minesLocation.includes(cell.id)){
+    alert('GAME OVER')
+    revealMines();
+    return
   }
   cell.classList.add('cell-clicked')
 }
@@ -71,15 +80,17 @@ const generateMines = () => {
 
   for (let i = 1; i <= minesCount; i++){
     let newCoordinate = generateCoordinate();
-
     while(coordinates.includes(newCoordinate)){
       newCoordinate = generateCoordinate()
     }
-
     coordinates.push(newCoordinate)
   }
 
   minesLocation.push(...coordinates)
+}
+
+const revealMines = () => {
+  
 }
 
 const paintTilesWhereMinesAre = () => {
@@ -94,7 +105,7 @@ export const startgame = () =>{
   createBoard();
   createFlagButton();
   generateMines();
-  paintTilesWhereMinesAre();
+  //paintTilesWhereMinesAre();
 }
 
 

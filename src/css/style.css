@@ -47,6 +47,8 @@ body{
   width: 520px;
   height: 520px;
 
+  position: relative;
+
   display: grid;
   grid-template-columns: repeat(10, 50px);
   background-color: #dbdbdb;
@@ -58,7 +60,18 @@ body{
   border: 10px #a3a3a3 solid;
 }
 
-.board div{
+.board::before{
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  top: 0;
+  left: 0;
+  background: 
+  repeating-linear-gradient(to right, #dbdbdb, #dbdbdb 50px, #a3a3a3 0px, #a3a3a3 100px)
+}
+
+.board-cell{
   width: 50px;
   height: 50px;
   background-color: #bababa;
@@ -72,8 +85,12 @@ body{
   user-select: none;
 }
 
-.board div:hover{
+.board-сell:hover{
   background-color: #cfcfcf;
+}
+
+.cell-clicked{
+  background-color: #dbdbdb;
 }
 
 /* Flag Button */
