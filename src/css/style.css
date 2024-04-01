@@ -51,16 +51,16 @@ body{
 
   display: grid;
   grid-template-columns: repeat(10, 50px);
-  background-color: #dbdbdb;
+  background: 
+  linear-gradient(to right, #7a7a7a, transparent 1px 50px),
+  linear-gradient(to bottom, #7a7a7a, transparent 1px 50px), #dbdbdb;
 
-  background-image: linear-gradient(to right, transparent 50px, red 51px);
+  background-size: 50px 50px;
 
-  background-size: 51px;
-
-  border: 10px #a3a3a3 solid;
+  border: 10px #8b8b8b solid;
 }
 
-.board::before{
+/* .board::before{
   content: '';
   position: absolute;
   width: 500px;
@@ -68,8 +68,9 @@ body{
   top: 0;
   left: 0;
   background: 
-  repeating-linear-gradient(to right, #dbdbdb, #dbdbdb 50px, #a3a3a3 0px, #a3a3a3 100px)
-}
+  repeating-linear-gradient(to right,  #dbdbdb 50px, #a3a3a3 51px, );
+  background-size: 50px;
+} */
 
 .board-cell{
   width: 50px;
