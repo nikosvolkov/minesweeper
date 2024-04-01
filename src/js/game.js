@@ -6,7 +6,7 @@ let flagEnabled = false;
 
 const minesCount = 15;
 const minesLocation = []
-const jopa = 'piska'
+
 const flagsLeft = minesCount // goal is to set all flags to the tiles with mines
 
 const gameDiv =  document.getElementById('app')
@@ -57,6 +57,7 @@ function cellClicked() {
       cell.innerText = '';
     }
   }
+  cell.classList.add('cell-clicked')
 }
 
 const generateMines = () => {
