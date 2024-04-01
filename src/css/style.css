@@ -1,13 +1,13 @@
-*{
+* {
   box-sizing: border-box;
 }
 
-body{
+body {
   font-family: Arial, Helvetica, sans-serif;
   background-color: #abb3df;
 }
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,7 +17,7 @@ body{
 
 /* Start Game Button */
 
-#start-game-btn{
+#start-game-btn {
   margin-top: 15px;
   padding: 10px 26px;
 
@@ -25,7 +25,7 @@ body{
   font-size: 24px;
   text-transform: uppercase;
   color: #fff;
-  background-color: #FC6E51;
+  background-color: #fc6e51;
 
   box-shadow: 0 0 12px -2px black;
 
@@ -35,15 +35,15 @@ body{
   transition: all 0.3s ease-in-out;
 }
 
-#start-game-btn:hover{
+#start-game-btn:hover {
   cursor: pointer;
   box-shadow: 0 0 10px -2px black;
-  background-color:#ff5f3f;
+  background-color: #ff5f3f;
 }
 
 /* Board */
 
-.board{
+.board {
   width: 520px;
   height: 520px;
 
@@ -51,71 +51,50 @@ body{
 
   display: grid;
   grid-template-columns: repeat(10, 50px);
-  background: 
-  linear-gradient(to right, #7a7a7a, transparent 1px 50px),
-  linear-gradient(to bottom, #7a7a7a, transparent 1px 50px), #dbdbdb;
+  background: linear-gradient(to right, #7a7a7a, transparent 1px 50px),
+    linear-gradient(to bottom, #7a7a7a, transparent 1px 50px), #dbdbdb;
 
   background-size: 50px 50px;
 
-  border: 10px #8b8b8b solid;
+  border: 10px #6f6f6f solid;
 }
 
-/* .board::before{
-  content: '';
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  top: 0;
-  left: 0;
-  background: 
-  repeating-linear-gradient(to right,  #dbdbdb 50px, #a3a3a3 51px, );
-  background-size: 50px;
-} */
-
-.board-cell{
+.board-cell {
   width: 50px;
   height: 50px;
   background-color: #bababa;
-  outline: 1px solid #fbfbfb;
   font-size: 30px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  border: 7px solid;
+  border-image: linear-gradient(135deg, #ffffff 50%, #8e8e8e 50%)30%;
+
   user-select: none;
-}
-
-.board-сell:hover{
-  background-color: #cfcfcf;
-}
-
-.cell-clicked{
-  background-color: #dbdbdb;
 }
 
 /* Flag Button */
 
-.flag-btn{
+.flag-btn {
   margin: 15px auto;
   padding: 5px 30px;
   font-size: 30px;
 
   border-radius: 10px;
   border: none;
-  
+
   background-color: #cccccc;
 
   display: block;
-
-
 }
 
-.flag-btn:hover{
+.flag-btn:hover {
   cursor: pointer;
 }
 
-.flag-btn-active{
+.flag-btn-active {
   background-color: #e3e3e3;
   outline: 2px solid #797979;
 }

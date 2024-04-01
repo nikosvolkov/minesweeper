@@ -17,15 +17,15 @@ const createBoard = () =>{
   boardDiv.classList.add('board')
   gameDiv.append(boardDiv)
 
-  // for (let r = 0; r < rows; r++){
-  //   for(let c = 0; c < columns; c++){
-  //     const boardCell = document.createElement('div')
-  //     boardCell.id = `${r}-${c}`;
-  //     boardCell.classList.add('board-cell')
-  //     boardCell.addEventListener('click', cellClicked)
-  //     boardDiv.append(boardCell)
-  //   }
-  // }
+  for (let r = 0; r < rows; r++){
+    for(let c = 0; c < columns; c++){
+      const boardCell = document.createElement('div')
+      boardCell.id = `${r}-${c}`;
+      boardCell.classList.add('board-cell')
+      boardCell.addEventListener('click', cellClicked)
+      boardDiv.append(boardCell)
+    }
+  }
 }
 
 const createFlagButton = () =>{
@@ -59,7 +59,7 @@ function cellClicked() {
     }
     return
   }
-  cell.classList.add('cell-clicked')
+  cell.classList.remove('board-cell')
 
   if (minesLocation.includes(cell.id)){
     alert('GAME OVER')
@@ -105,7 +105,7 @@ export const startgame = () =>{
   createBoard();
   createFlagButton();
   generateMines();
-  //paintTilesWhereMinesAre();
+  paintTilesWhereMinesAre();
 }
 
 
