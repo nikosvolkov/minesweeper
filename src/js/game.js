@@ -1,112 +1,120 @@
-
 const rows = 10;
 const columns = 10;
 
 let flagEnabled = false;
 
 const minesCount = 20;
-const minesLocation = []
+const minesLocation = [];
 
-const flagsLeft = minesCount // goal is to set all flags to the tiles with mines
+const flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
 
-const gameDiv =  document.getElementById('app')
+const gameDiv = document.getElementById('app');
 
-const createBoard = () =>{
-  const boardDiv = document.createElement('div')
-  boardDiv.id = 'board'
-  boardDiv.classList.add('board')
-  gameDiv.append(boardDiv)
+const createBoard = () => {
+  const boardDiv = document.createElement('div');
+  boardDiv.id = 'board';
+  boardDiv.classList.add('board');
+  gameDiv.append(boardDiv);
 
-  for (let r = 0; r < rows; r++){
-    for(let c = 0; c < columns; c++){
-      const boardCell = document.createElement('div')
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < columns; c++) {
+      const boardCell = document.createElement('div');
       boardCell.id = `${r}-${c}`;
-      boardCell.classList.add('board-cell')
-      boardCell.addEventListener('click', cellClicked)
-      boardDiv.append(boardCell)
+      boardCell.classList.add('board-cell');
+      boardCell.addEventListener('click', cellClicked);
+      boardDiv.append(boardCell);
     }
   }
-}
+};
 
-const createFlagButton = () =>{
-  const flagButton = document.createElement('button')
-  flagButton.classList.add('flag-btn')
-  flagButton.id = 'flag-btn'
-  flagButton.innerText = '🚩'
+const createFlagButton = () => {
+  const flagButton = document.createElement('button');
+  flagButton.classList.add('flag-btn');
+  flagButton.id = 'flag-btn';
+  flagButton.innerText = '🚩';
 
-  gameDiv.append(flagButton)
+  gameDiv.append(flagButton);
 
-  flagButton.addEventListener('click', ()=>{
-    if(!flagEnabled){
-      flagButton.classList.add('flag-btn-active')
+  flagButton.addEventListener('click', () => {
+    if (!flagEnabled) {
+      flagButton.classList.add('flag-btn-active');
       flagEnabled = true;
-    }else{
-      flagButton.classList.remove('flag-btn-active')
+    } else {
+      flagButton.classList.remove('flag-btn-active');
       flagEnabled = false;
     }
-    
-  })
-}
+  });
+};
 
 function cellClicked() {
   let cell = this;
 
-  if (flagEnabled){
-    if(!cell.innerText){
-      cell.innerText = '🚩'
-    }else{
+  if (flagEnabled) {
+    if (!cell.innerText) {
+      cell.innerText = '🚩';
+    } else {
       cell.innerText = '';
     }
-    return
+    return;
   }
-  cell.classList.remove('board-cell')
+  cell.classList.remove('board-cell');
 
-  if (minesLocation.includes(cell.id)){
-    alert('GAME OVER')
+  if (minesLocation.includes(cell.id) && !cell.innerText) {
+    cell.style.backgroundColor = 'red';
+    alert('GAME OVER');
     revealMines();
     return
   }
-  cell.classList.add('cell-clicked')
+
+  cell.classList.add('cell-clicked');
+
+  let coords = cell.id.split('-');
+  let r = parseInt(coords[0]);
+  let c = parseInt(coords[1]);
+
+  checkMine(r, c);
 }
 
 const generateMines = () => {
   const coordinates = [];
 
-  const generateCoordinate = () =>{
-    const c = Math.floor(Math.random() * 10)
-    const r = Math.floor(Math.random() * 10) 
-    return `${r}-${c}`
-  }
+  const generateCoordinate = () => {
+    const c = Math.floor(Math.random() * 10); // from 0 to 9
+    const r = Math.floor(Math.random() * 10); // from 0 to 9
+    return `${r}-${c}`;
+  };
 
-  for (let i = 1; i <= minesCount; i++){
+  for (let i = 1; i <= minesCount; i++) {
     let newCoordinate = generateCoordinate();
-    while(coordinates.includes(newCoordinate)){
-      newCoordinate = generateCoordinate()
+    while (coordinates.includes(newCoordinate)) {
+      newCoordinate = generateCoordinate();
     }
-    coordinates.push(newCoordinate)
+    coordinates.push(newCoordinate);
   }
 
-  minesLocation.push(...coordinates)
-}
+  minesLocation.push(...coordinates);
+};
 
 const revealMines = () => {
-  
-}
+  minesLocation.forEach((coordinate) => {
+    const cellWithBomb = document.getElementById(coordinate);
+    cellWithBomb.innerText = '💣';
+    cellWithBomb.classList.remove('board-cell');
+    cellWithBomb.classList.add('cell-bomb');
+  });
+};
 
 const paintTilesWhereMinesAre = () => {
   minesLocation.forEach((coordinate) => {
-    document.getElementById(coordinate).style.backgroundColor = '#cf8989'
-  })
-}
+    document.getElementById(coordinate).style.backgroundColor = '#cf8989';
+  });
+};
 
-export const startgame = () =>{
-  document.getElementById('start-game-btn').remove()
+export const startgame = () => {
+  document.getElementById('start-game-btn').remove();
 
   createBoard();
   createFlagButton();
   generateMines();
   paintTilesWhereMinesAre();
-}
-
-
-
+};
