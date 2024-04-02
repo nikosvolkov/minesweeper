@@ -5,7 +5,7 @@ const board = [];
 
 let flagEnabled = false;
 
-const minesCount = 20;
+const minesCount = 10;
 const minesLocation = [];
 
 const flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
@@ -72,8 +72,6 @@ function cellClicked() {
     return;
   }
 
-  cell.classList.add('cell-clicked');
-
   let coords = cell.id.split('-');
   let r = parseInt(coords[0]);
   let c = parseInt(coords[1]);
@@ -85,6 +83,13 @@ const checkMine = (r, c) => {
   if (r < 0 || r > rows || c < 0 || c > columns) {
     return;
   }
+
+  if (board[r][c].classList.contains('cell-clicked')) {
+    return;
+  }
+
+  board[r][c].classList.add('cell-clicked')
+  board[r][c].classList.remove('board-cell')
 
   let minesFound = 0;
 
@@ -102,9 +107,23 @@ const checkMine = (r, c) => {
   minesFound += checkCell(r + 1, c);
   minesFound += checkCell(r + 1, c + 1);
 
-  if (minesFound > 0 && !board[r][c].innerText) {
+  if (minesFound > 0) {
     board[r][c].innerText = minesFound;
     board[r][c].classList.add(`x${minesFound}`);
+  } else {
+    //top 3 cells
+    setTimeout(checkMine(r - 1, c - 1),1000);
+    setTimeout(checkMine(r - 1, c),1000);
+    checkMine(r - 1, c + 1);
+
+    //left and right
+    checkMine(r, c - 1);
+    checkMine(r, c + 1);
+
+    //bottom 3 cells
+    checkMine(r + 1, c - 1);
+    checkMine(r + 1, c);
+    checkMine(r + 1, c + 1);
   }
 };
 
