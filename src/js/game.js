@@ -80,14 +80,15 @@ function cellClicked() {
 }
 
 const checkMine = (r, c) => {
-  if (r < 0 || r > rows || c < 0 || c > columns) {
+if (r < 0 || r > rows || c < 0 || c > columns) {
     return;
   }
 
   if (board[r][c].classList.contains('cell-clicked')) {
     return;
   }
-
+  //console.log(board);
+  //console.log(board[r][c]);
   board[r][c].classList.add('cell-clicked')
   board[r][c].classList.remove('board-cell')
 
@@ -112,15 +113,13 @@ const checkMine = (r, c) => {
     board[r][c].classList.add(`x${minesFound}`);
   } else {
     //top 3 cells
-    setTimeout(checkMine(r - 1, c - 1),1000);
-    setTimeout(checkMine(r - 1, c),1000);
+    checkMine(r - 1, c - 1);
+    checkMine(r - 1, c);
     checkMine(r - 1, c + 1);
 
-    //left and right
     checkMine(r, c - 1);
     checkMine(r, c + 1);
 
-    //bottom 3 cells
     checkMine(r + 1, c - 1);
     checkMine(r + 1, c);
     checkMine(r + 1, c + 1);
@@ -133,6 +132,7 @@ const checkCell = (r, c) => {
   }
 
   if (minesLocation.includes(r.toString() + '-' + c.toString())) {
+    board[r][c].style.borderColor = 'green'
     return 1;
   }
   return 0;
