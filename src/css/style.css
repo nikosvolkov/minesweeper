@@ -63,6 +63,7 @@ body {
   width: 50px;
   height: 50px;
   background-color: #bababa;
+
   font-size: 25px;
 
   display: flex;
@@ -70,31 +71,65 @@ body {
   justify-content: center;
 
   border: 7px solid;
-  border-image: linear-gradient(135deg, #ffffff 50%, #8e8e8e 50%)30%;
+  border-image: linear-gradient(135deg, #ffffff 50%, #8e8e8e 50%) 30%;
 
   user-select: none;
 }
 
-.cell-clicked{
+.cell-clicked {
   width: 50px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 40px;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 400;
 
   user-select: none;
 }
 
-.cell-bomb{
+.cell-bomb {
   width: 50px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 30px;
-  
+
   user-select: none;
+}
+
+.x1 {
+  color: blue;
+}
+
+.x2 {
+  color: green;
+}
+
+.x3 {
+  color: red;
+}
+
+.x4 {
+  color: navy;
+}
+
+.x5 {
+  color: brown;
+}
+
+.x6 {
+  color: teal;
+}
+
+.x7 {
+  color: black;
+}
+
+.x8 {
+  color: gray;
 }
 
 /* Flag Button */

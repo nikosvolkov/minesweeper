@@ -1,11 +1,11 @@
 const rows = 10;
 const columns = 10;
 
-const board = []
+const board = [];
 
 let flagEnabled = false;
 
-const minesCount = 10;
+const minesCount = 20;
 const minesLocation = [];
 
 const flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
@@ -26,7 +26,7 @@ const createBoard = () => {
       boardCell.classList.add('board-cell');
       boardCell.addEventListener('click', cellClicked);
       boardDiv.append(boardCell);
-      row.push(boardCell)
+      row.push(boardCell);
     }
     board.push(row);
   }
@@ -81,7 +81,7 @@ function cellClicked() {
   checkMine(r, c);
 }
 
-const checkMine = (r,c) => {
+const checkMine = (r, c) => {
   if (r < 0 || r > rows || c < 0 || c > columns) {
     return;
   }
@@ -89,34 +89,35 @@ const checkMine = (r,c) => {
   let minesFound = 0;
 
   //top 3 cells
-  minesFound += checkCell(r-1,c-1);
-  minesFound += checkCell(r-1,c);
-  minesFound += checkCell(r-1,c+1);
+  minesFound += checkCell(r - 1, c - 1);
+  minesFound += checkCell(r - 1, c);
+  minesFound += checkCell(r - 1, c + 1);
 
   //left and right
-  minesFound += checkCell(r,c-1);
-  minesFound += checkCell(r,c+1);
+  minesFound += checkCell(r, c - 1);
+  minesFound += checkCell(r, c + 1);
 
   //bottom 3 cells
-  minesFound += checkCell(r+1,c-1);
-  minesFound += checkCell(r+1,c);
-  minesFound += checkCell(r+1,c+1);
+  minesFound += checkCell(r + 1, c - 1);
+  minesFound += checkCell(r + 1, c);
+  minesFound += checkCell(r + 1, c + 1);
 
-  if (minesFound > 0){
+  if (minesFound > 0 && !board[r][c].innerText) {
     board[r][c].innerText = minesFound;
+    board[r][c].classList.add(`x${minesFound}`);
   }
 };
 
-const checkCell = (r,c) =>{
+const checkCell = (r, c) => {
   if (r < 0 || r > rows || c < 0 || c > columns) {
     return 0;
   }
 
-  if(minesLocation.includes(r.toString() + '-' + c.toString())){
+  if (minesLocation.includes(r.toString() + '-' + c.toString())) {
     return 1;
   }
   return 0;
-}
+};
 
 const generateMines = () => {
   const coordinates = [];
