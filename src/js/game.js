@@ -1,12 +1,14 @@
-const rows = 10;
-const columns = 10;
+let rows = 10;
+let columns = 10;
 
 const board = [];
 
 let flagEnabled = false;
 
-const minesCount = 10;
+let minesCount = 10;
 const minesLocation = [];
+
+let gameOver = false;
 
 const flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
 
@@ -67,8 +69,9 @@ function cellClicked() {
 
   if (minesLocation.includes(cell.id) && !cell.innerText) {
     cell.style.backgroundColor = 'red';
-    alert('GAME OVER');
     revealMines();
+    gameOver = true
+    alert('GAME OVER');
     return;
   }
 
@@ -89,8 +92,7 @@ const checkMine = (r, c) => {
     return;
   }
 
-  board[r][c].classList.add('cell-clicked')
-  board[r][c].classList.remove('board-cell')
+  board[r][c].classList.replace('board-cell','cell-clicked')
 
   let minesFound = 0;
 
