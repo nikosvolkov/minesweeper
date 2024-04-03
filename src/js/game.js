@@ -5,10 +5,12 @@ const board = [];
 
 let flagEnabled = false;
 
-let minesCount = 10;
+let minesCount = 15;
 const minesLocation = [];
 
 let gameOver = false;
+
+let firstClick = true;
 
 const flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
 
@@ -63,9 +65,20 @@ const createFlagButton = () => {
 function cellClicked() {
   let cell = this;
 
+  if (gameOver || cell.classList.contains('cell-clicked')){
+    return;
+  }
+
+  if (firstClick == true){
+    generateMines(cell.id)
+    firstClick = false;
+  }
+  //paintTilesWhereMinesAre();
+
   if (flagEnabled) {
     if (!cell.innerText) {
       cell.innerText = '🚩';
+
     } else {
       cell.innerText = '';
     }
@@ -146,24 +159,43 @@ const checkCell = (r, c) => {
   return 0;
 };
 
-const generateMines = () => {
+const generateMines = (clickedCellId) => {
   const coordinates = [];
+  
+  
+  function findMinesAroundClick (MineCoordinates) {
+    const r = parseInt(clickedCellId.split('-').at(0))
+    const c = parseInt(clickedCellId.split('-').at(1))
 
-  const generateCoordinate = () => {
-    const c = Math.floor(Math.random() * 10); // from 0 to 9
-    const r = Math.floor(Math.random() * 10); // from 0 to 9
-    return `${r}-${c}`;
-  };
+    const cellsAroundClick = []
 
-  for (let i = 1; i <= minesCount; i++) {
-    let newCoordinate = generateCoordinate();
-    while (coordinates.includes(newCoordinate)) {
-      newCoordinate = generateCoordinate();
+    for (let row = r-1; row<=r+1; row++){
+      for (let col = c-1; col <= c+1; col++){
+        if (row !== r || col!==c){
+          cellsAroundClick.push(`${row}-${col}`)
+        }
+      }
     }
-    coordinates.push(newCoordinate);
+
+    if (cellsAroundClick.includes(MineCoordinates)){
+      return false
+    }else{
+      return true
+    }
+    
   }
 
-  minesLocation.push(...coordinates);
+
+  while(minesCount > 0){
+    const r = Math.floor(Math.random() * rows); 
+    const c = Math.floor(Math.random() * columns); 
+    const condition = !coordinates.includes(`${r}-${c}`) && !clickedCellId.includes(`${r}-${c}`) && findMinesAroundClick(`${r}-${c}`);
+    if (condition){
+      minesLocation.push(`${r}-${c}`)
+      minesCount--;
+      paintTilesWhereMinesAre()
+    }
+  }
 };
 
 const revealMines = () => {
@@ -186,6 +218,4 @@ export const startgame = () => {
 
   createBoard();
   createFlagButton();
-  generateMines();
-  paintTilesWhereMinesAre();
 };
