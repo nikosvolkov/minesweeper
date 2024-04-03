@@ -5,14 +5,14 @@ const board = [];
 
 let flagEnabled = false;
 
-let minesCount = 15;
+let minesCount = 10;
 const minesLocation = [];
 
 let gameOver = false;
 
 let firstClick = true;
 
-const flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
+let flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
 
 const gameDiv = document.getElementById('app');
 
@@ -24,9 +24,11 @@ const createBoard = () => {
 
   const infoDiv =  document.createElement('div')
   infoDiv.classList.add('time-flag-container')
-  infoDiv.innerHTML = '<span id="flags-left">0</span><span id="stopwatch">0</span>'
+  infoDiv.innerHTML = `<span id="flags-left">${flagsLeft}</span><span id="stopwatch">0</span>`
 
   gameDiv.prepend(infoDiv)
+
+
 
   for (let r = 0; r < rows; r++) {
     let row = [];
@@ -64,7 +66,6 @@ const createFlagButton = () => {
 
 function cellClicked() {
   let cell = this;
-
   if (gameOver || cell.classList.contains('cell-clicked')){
     return;
   }
@@ -73,23 +74,29 @@ function cellClicked() {
     generateMines(cell.id)
     firstClick = false;
   }
-  //paintTilesWhereMinesAre();
 
   if (flagEnabled) {
     if (!cell.innerText) {
       cell.innerText = '🚩';
-
+      flagsLeft--;
     } else {
       cell.innerText = '';
+      flagsLeft++;
+    }
+    document.getElementById('flags-left').innerText = flagsLeft;
+    if (flagsLeft == 0){
+      checkFlagsOnMines()
+      return;
     }
     return;
   }
 
+
+
   if (minesLocation.includes(cell.id) && !cell.innerText) {
     cell.style.backgroundColor = 'red';
     revealMines();
-    gameOver = true
-    alert('GAME OVER');
+    stopGame('lose')
     return;
   }
 
@@ -98,6 +105,22 @@ function cellClicked() {
   let c = parseInt(coords[1]);
 
   checkMine(r, c);
+}
+
+const checkFlagsOnMines = () =>{
+  let rightFlags = 0;
+  minesLocation.forEach((coordinate) => {
+    const mineCell = document.getElementById(coordinate)
+    if (mineCell.innerText == '🚩'){
+      rightFlags++;
+    }
+  })
+  if (rightFlags == minesLocation.length){
+    stopGame('win')
+  }else{
+    stopGame('lose')
+  }
+
 }
 
 const checkMine = (r, c) => {
@@ -190,11 +213,11 @@ const generateMines = (clickedCellId) => {
     const r = Math.floor(Math.random() * rows); 
     const c = Math.floor(Math.random() * columns); 
     const condition = !coordinates.includes(`${r}-${c}`) && !clickedCellId.includes(`${r}-${c}`) && findMinesAroundClick(`${r}-${c}`);
-    if (condition){
-      minesLocation.push(`${r}-${c}`)
-      minesCount--;
-      paintTilesWhereMinesAre()
-    }
+    if (!condition) continue;
+    minesLocation.push(`${r}-${c}`)
+    minesCount--;
+    paintTilesWhereMinesAre()
+    
   }
 };
 
@@ -219,3 +242,11 @@ export const startgame = () => {
   createBoard();
   createFlagButton();
 };
+
+const stopGame = (state) =>{
+  if (state === 'lose'){
+    alert('you lost!')
+  }else if (state ==='win'){
+    alert('you won!')
+  }
+}
