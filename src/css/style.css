@@ -76,6 +76,16 @@ body {
   user-select: none;
 }
 
+.time-flag-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  font-family: 'Kanit', sans-serif;
+  font-size: 30px;
+}
+
 .cell-clicked {
   width: 50px;
   height: 50px;
