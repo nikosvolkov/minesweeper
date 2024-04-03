@@ -20,6 +20,12 @@ const createBoard = () => {
   boardDiv.classList.add('board');
   gameDiv.append(boardDiv);
 
+  const infoDiv =  document.createElement('div')
+  infoDiv.classList.add('time-flag-container')
+  infoDiv.innerHTML = '<span id="flags-left">0</span><span id="stopwatch">0</span>'
+
+  gameDiv.prepend(infoDiv)
+
   for (let r = 0; r < rows; r++) {
     let row = [];
     for (let c = 0; c < columns; c++) {
@@ -65,7 +71,6 @@ function cellClicked() {
     }
     return;
   }
-  cell.classList.remove('board-cell');
 
   if (minesLocation.includes(cell.id) && !cell.innerText) {
     cell.style.backgroundColor = 'red';
@@ -136,7 +141,6 @@ const checkCell = (r, c) => {
   }
 
   if (minesLocation.includes(r.toString() + '-' + c.toString())) {
-    board[r][c].style.borderColor = 'green'
     return 1;
   }
   return 0;
