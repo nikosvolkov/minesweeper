@@ -1,11 +1,12 @@
-import {rows,columns} from "./consts"
+import { rows, columns } from './consts';
 
 export const createBoard = () => {
-  const board = []
+  const boardArray = [];
 
   const boardDiv = document.createElement('div');
   boardDiv.id = 'board';
   boardDiv.classList.add('board');
+  document.getElementById('app').append(boardDiv);
 
   for (let r = 0; r < rows; r++) {
     let row = [];
@@ -16,10 +17,9 @@ export const createBoard = () => {
       boardDiv.append(boardCell);
       row.push(boardCell);
     }
-    board.push(row);
-    boardDiv.append(board)
+    boardArray.push(row);
   }
-  return board;
+  return boardArray;
 };
 
-//export const board = createBoard();
+

@@ -1,29 +1,25 @@
-import {createBoard}from "./board";
-import {rows,columns} from "./consts"
+import { createBoard } from './board';
+import { rows, columns } from './consts';
 
 let flagEnabled = false;
-
-const board = createBoard();
-
 let minesCount = 10;
 const minesLocation = [];
-
 let gameOver = false;
-
 let firstClick = true;
-
 let flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
 
 const gameDiv = document.getElementById('app');
 
-//gameDiv.append(board)
+export const startgame = () => {
+  document.getElementById('start-game-btn').remove();
 
-//board.addEventListener('click', console.log(this))
-
-const infoDiv =  document.createElement('div')
-infoDiv.classList.add('time-flag-container')
-infoDiv.innerHTML = `<span id="flags-left">${flagsLeft}</span><span id="stopwatch">0</span>`
-gameDiv.prepend(infoDiv)
+  const infoDiv = document.createElement('div');
+  infoDiv.classList.add('time-flag-container');
+  infoDiv.innerHTML = `<span id="flags-left">${flagsLeft}</span><span id="stopwatch">0</span>`;
+  gameDiv.prepend(infoDiv);
+  createBoard();
+  createFlagButton();
+};
 
 const createFlagButton = () => {
   const flagButton = document.createElement('button');
@@ -46,12 +42,12 @@ const createFlagButton = () => {
 
 function cellClicked() {
   let cell = this;
-  if (gameOver || cell.classList.contains('cell-clicked')){
+  if (gameOver || cell.classList.contains('cell-clicked')) {
     return;
   }
 
-  if (firstClick == true){
-    generateMines(cell.id)
+  if (firstClick == true) {
+    generateMines(cell.id);
     firstClick = false;
   }
 
@@ -64,19 +60,17 @@ function cellClicked() {
       flagsLeft++;
     }
     document.getElementById('flags-left').innerText = flagsLeft;
-    if (flagsLeft == 0){
-      checkFlagsOnMines()
+    if (flagsLeft == 0) {
+      checkFlagsOnMines();
       return;
     }
     return;
   }
 
-
-
   if (minesLocation.includes(cell.id) && !cell.innerText) {
     cell.style.backgroundColor = 'red';
     revealMines();
-    stopGame('lose')
+    stopGame('lose');
     return;
   }
 
@@ -87,24 +81,22 @@ function cellClicked() {
   checkMine(r, c);
 }
 
-const checkFlagsOnMines = () =>{
+const checkFlagsOnMines = () => {
   let rightFlags = 0;
   minesLocation.forEach((coordinate) => {
-    const mineCell = document.getElementById(coordinate)
-    if (mineCell.innerText == '🚩'){
+    const mineCell = document.getElementById(coordinate);
+    if (mineCell.innerText == '🚩') {
       rightFlags++;
     }
-  })
-  if (rightFlags == minesLocation.length){
-    stopGame('win')
-  }else{
-    stopGame('lose')
+  });
+  if (rightFlags == minesLocation.length) {
+    stopGame('win');
+  } else {
+    stopGame('lose');
   }
-
-}
+};
 
 const checkMine = (r, c) => {
-
   if (r < 0 || r >= rows || c < 0 || c >= columns) {
     return;
   }
@@ -113,7 +105,7 @@ const checkMine = (r, c) => {
     return;
   }
 
-  board[r][c].classList.replace('board-cell','cell-clicked')
+  board[r][c].classList.replace('board-cell', 'cell-clicked');
 
   let minesFound = 0;
 
@@ -164,40 +156,39 @@ const checkCell = (r, c) => {
 
 const generateMines = (clickedCellId) => {
   const coordinates = [];
-  
-  
-  function findMinesAroundClick (MineCoordinates) {
-    const r = parseInt(clickedCellId.split('-').at(0))
-    const c = parseInt(clickedCellId.split('-').at(1))
 
-    const cellsAroundClick = []
+  function findMinesAroundClick(MineCoordinates) {
+    const r = parseInt(clickedCellId.split('-').at(0));
+    const c = parseInt(clickedCellId.split('-').at(1));
 
-    for (let row = r-1; row<=r+1; row++){
-      for (let col = c-1; col <= c+1; col++){
-        if (row !== r || col!==c){
-          cellsAroundClick.push(`${row}-${col}`)
+    const cellsAroundClick = [];
+
+    for (let row = r - 1; row <= r + 1; row++) {
+      for (let col = c - 1; col <= c + 1; col++) {
+        if (row !== r || col !== c) {
+          cellsAroundClick.push(`${row}-${col}`);
         }
       }
     }
 
-    if (cellsAroundClick.includes(MineCoordinates)){
-      return false
-    }else{
-      return true
+    if (cellsAroundClick.includes(MineCoordinates)) {
+      return false;
+    } else {
+      return true;
     }
-    
   }
 
-
-  while(minesCount > 0){
-    const r = Math.floor(Math.random() * rows); 
-    const c = Math.floor(Math.random() * columns); 
-    const condition = !coordinates.includes(`${r}-${c}`) && !clickedCellId.includes(`${r}-${c}`) && findMinesAroundClick(`${r}-${c}`);
+  while (minesCount > 0) {
+    const r = Math.floor(Math.random() * rows);
+    const c = Math.floor(Math.random() * columns);
+    const condition =
+      !coordinates.includes(`${r}-${c}`) &&
+      !clickedCellId.includes(`${r}-${c}`) &&
+      findMinesAroundClick(`${r}-${c}`);
     if (!condition) continue;
-    minesLocation.push(`${r}-${c}`)
+    minesLocation.push(`${r}-${c}`);
     minesCount--;
-    paintTilesWhereMinesAre()
-    
+    paintTilesWhereMinesAre();
   }
 };
 
@@ -216,22 +207,16 @@ const paintTilesWhereMinesAre = () => {
   });
 };
 
-export const startgame = () => {
-  document.getElementById('start-game-btn').remove();
 
-  createBoard();
-  createFlagButton();
-};
-
-const stopGame = (state) =>{
-  if (state === 'lose'){
-    revealMines()
+const stopGame = (state) => {
+  if (state === 'lose') {
+    revealMines();
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < columns; c++) {
-        board[i][j].removeEventListener('click', cellClicked)
+        board[i][j].removeEventListener('click', cellClicked);
       }
     }
-  }else if (state ==='win'){
-    alert('you won!')
+  } else if (state === 'win') {
+    alert('you won!');
   }
-}
+};
