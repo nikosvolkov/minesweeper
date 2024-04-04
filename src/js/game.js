@@ -1,9 +1,9 @@
-let rows = 10;
-let columns = 10;
-
-const board = [];
+import {createBoard}from "./board";
+import {rows,columns} from "./consts"
 
 let flagEnabled = false;
+
+const board = createBoard();
 
 let minesCount = 10;
 const minesLocation = [];
@@ -16,34 +16,14 @@ let flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
 
 const gameDiv = document.getElementById('app');
 
-const createBoard = () => {
-  const boardDiv = document.createElement('div');
-  boardDiv.id = 'board';
-  boardDiv.classList.add('board');
-  gameDiv.append(boardDiv);
+//gameDiv.append(board)
 
-  const infoDiv =  document.createElement('div')
-  infoDiv.classList.add('time-flag-container')
-  infoDiv.innerHTML = `<span id="flags-left">${flagsLeft}</span><span id="stopwatch">0</span>`
+//board.addEventListener('click', console.log(this))
 
-  gameDiv.prepend(infoDiv)
-
-
-
-  for (let r = 0; r < rows; r++) {
-    let row = [];
-    for (let c = 0; c < columns; c++) {
-      const boardCell = document.createElement('div');
-      boardCell.id = `${r}-${c}`;
-      boardCell.classList.add('board-cell');
-      boardCell.addEventListener('click', cellClicked);
-      boardDiv.append(boardCell);
-      row.push(boardCell);
-    }
-    board.push(row);
-  }
-  console.log(board);
-};
+const infoDiv =  document.createElement('div')
+infoDiv.classList.add('time-flag-container')
+infoDiv.innerHTML = `<span id="flags-left">${flagsLeft}</span><span id="stopwatch">0</span>`
+gameDiv.prepend(infoDiv)
 
 const createFlagButton = () => {
   const flagButton = document.createElement('button');
@@ -245,7 +225,12 @@ export const startgame = () => {
 
 const stopGame = (state) =>{
   if (state === 'lose'){
-    alert('you lost!')
+    revealMines()
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < columns; c++) {
+        board[i][j].removeEventListener('click', cellClicked)
+      }
+    }
   }else if (state ==='win'){
     alert('you won!')
   }
