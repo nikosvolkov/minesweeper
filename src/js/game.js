@@ -12,11 +12,11 @@ let flagsLeft = minesCount;
 export const startgame = () => {
   document.getElementById('start-game-btn').remove();
 
-  stopWatchHandler('start');
+  
 
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('time-flag-container');
-  infoDiv.innerHTML = `<span id="flags-left">${flagsLeft}</span><span id="stopwatch">0</span>`;
+  infoDiv.innerHTML = `<span id="flags-left">🚩=${flagsLeft}</span><span id="stopwatch">⏱:0</span>`;
   document.getElementById('app').prepend(infoDiv);
 
   const board = createBoard();
@@ -40,6 +40,7 @@ function cellClicked() {
 
   if (firstClick == true) {
     generateMines(cell.id);
+    stopWatchHandler('start');
     firstClick = false;
   }
 
@@ -53,7 +54,7 @@ function cellClicked() {
       cell.innerText = '';
       flagsLeft++;
     }
-    document.getElementById('flags-left').innerText = flagsLeft;
+    document.getElementById('flags-left').innerText = `🚩=${flagsLeft}`;
     if (flagsLeft == 0) {
       checkFlagsOnMines();
       return;
