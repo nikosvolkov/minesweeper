@@ -1,15 +1,13 @@
 import { createBoard } from './board';
 import { rows, columns } from './consts';
 import { createFlagButton } from './ui';
+import { getBoard2dArray } from './utils';
 
-let flagEnabled = false;
 let minesCount = 10;
 const minesLocation = [];
 let gameOver = false;
 let firstClick = true;
 let flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
-
-
 
 export const startgame = () => {
   document.getElementById('start-game-btn').remove();
@@ -20,15 +18,16 @@ export const startgame = () => {
   document.getElementById('app').prepend(infoDiv);
 
   const board = createBoard();
-  board.forEach(() =>{
-    for (let r= 0; r < rows; r++) {
+  board.forEach(() => {
+    for (let r = 0; r < rows; r++) {
       for (let c = 0; c < columns; c++) {
-        board[r][c].addEventListener('click', cellClicked)
+        board[r][c].addEventListener('click', cellClicked);
       }
     }
-  })
+  });
   createFlagButton();
-
+  console.log('inside startgame(): ');
+  console.log(board);
 };
 
 function cellClicked() {
@@ -42,7 +41,9 @@ function cellClicked() {
     firstClick = false;
   }
 
-  if (flagEnabled) {
+  const flagButton = document.getElementById('flag-btn');
+
+  if (flagButton.classList.contains('flag-btn-active')) {
     if (!cell.innerText) {
       cell.innerText = '🚩';
       flagsLeft--;
@@ -64,6 +65,8 @@ function cellClicked() {
     stopGame('lose');
     return;
   }
+  console.log('inside cellClicked(): ');
+  console.log(board);
 
   let coords = cell.id.split('-');
   let r = parseInt(coords[0]);
@@ -88,6 +91,8 @@ const checkFlagsOnMines = () => {
 };
 
 const checkMine = (r, c) => {
+  const board = getBoard2dArray();
+
   if (r < 0 || r >= rows || c < 0 || c >= columns) {
     return;
   }
@@ -198,13 +203,13 @@ const paintTilesWhereMinesAre = () => {
   });
 };
 
-
 const stopGame = (state) => {
+  const board = getBoard2dArray();
   if (state === 'lose') {
     revealMines();
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < columns; c++) {
-        board[i][j].removeEventListener('click', cellClicked);
+        board[r][c].removeEventListener('click', cellClicked);
       }
     }
   } else if (state === 'win') {

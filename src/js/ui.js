@@ -7,12 +7,6 @@ export const createFlagButton = () => {
   document.getElementById('app').append(flagButton);
 
   flagButton.addEventListener('click', () => {
-    if (!flagEnabled) {
-      flagButton.classList.add('flag-btn-active');
-      flagEnabled = true;
-    } else {
-      flagButton.classList.remove('flag-btn-active');
-      flagEnabled = false;
-    }
+    flagButton.classList.toggle('flag-btn-active')
   });
 };
