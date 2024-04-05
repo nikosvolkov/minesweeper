@@ -1,16 +1,18 @@
 import { createBoard } from './board';
 import { rows, columns } from './consts';
 import { createFlagButton } from './ui';
-import { getBoard2dArray } from './utils';
+import { getBoard2dArray, stopWatchHandler } from './utils';
 
 let minesCount = 10;
 const minesLocation = [];
 let gameOver = false;
 let firstClick = true;
-let flagsLeft = minesCount; // goal is to set all flags to the tiles with mines
+let flagsLeft = minesCount;
 
 export const startgame = () => {
   document.getElementById('start-game-btn').remove();
+
+  stopWatchHandler('start');
 
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('time-flag-container');
@@ -205,6 +207,9 @@ const paintTilesWhereMinesAre = () => {
 
 const stopGame = (state) => {
   const board = getBoard2dArray();
+
+  stopWatchHandler('stop')
+
   if (state === 'lose') {
     revealMines();
     for (let r = 0; r < rows; r++) {
