@@ -16,7 +16,7 @@ export const startgame = () => {
 
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('time-flag-container');
-  infoDiv.innerHTML = `<span id="flags-left">🚩=${flagsLeft}</span><span id="stopwatch">⏱:0</span>`;
+  infoDiv.innerHTML = `<span id="flags-left">🚩=${flagsLeft}</span><span id="stopwatch">⏱:000</span>`;
   document.getElementById('app').prepend(infoDiv);
 
   const board = createBoard();
@@ -187,7 +187,7 @@ const generateMines = (clickedCellId) => {
     if (!condition) continue;
     minesLocation.push(`${r}-${c}`);
     minesCount--;
-    paintTilesWhereMinesAre();
+    //paintTilesWhereMinesAre();
   }
 };
 

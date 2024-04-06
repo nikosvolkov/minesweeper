@@ -84,6 +84,14 @@ body {
 
   font-family: 'Kanit', sans-serif;
   font-size: 30px;
+
+  position: relative;
+}
+
+#stopwatch{
+  position: absolute;
+  width: 105px;
+  right: -5px;
 }
 
 .cell-clicked {

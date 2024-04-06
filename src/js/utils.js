@@ -19,7 +19,7 @@ export const stopWatchHandler = (state) => {
   if (state == 'start') {
     stopWatch = setInterval(() => {
       stopWatchValue++;
-      document.getElementById('stopwatch').innerText = `⏱:${stopWatchValue}`;
+      document.getElementById('stopwatch').innerText = `⏱:${String(stopWatchValue).padStart(3,'0')}`;
     }, 1000);
   }else if (state == 'stop'){
     clearInterval(stopWatch)
