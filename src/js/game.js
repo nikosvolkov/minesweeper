@@ -5,14 +5,11 @@ import { getBoard2dArray, stopWatchHandler } from './utils';
 
 let minesCount = 10;
 const minesLocation = [];
-let gameOver = false;
 let firstClick = true;
 let flagsLeft = minesCount;
 
 export const startgame = () => {
   document.getElementById('start-game-btn').remove();
-
-  
 
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('time-flag-container');
@@ -32,25 +29,36 @@ export const startgame = () => {
   console.log(board);
 };
 
+// function clickOnNumberCell(cellId) {
+//   let flagsAround = 0;
+//   const r = parseInt(cellId.split('-').at(0));
+//   const c = parseInt(cellId.split('-').at(1));
+//   for (let row = r - 1; row <= r + 1; row++) {
+//     for (let col = c - 1; col <= c + 1; col++) {
+//       if (row !== r || col !== c) {
+//         const cellAroundNumber = document.getElementById(`${row}-${col}`);
+//         if (
+//           cellAroundNumber.classList.contains('board-cell') &&
+//           cellAroundNumber.innerText == '🚩'
+//         ) {
+//           flagsAround++;
+          
+//         }
+//       }
+//     }
+//   }
+//   console.log(flagsAround);
+// }
+
 function cellClicked() {
   let cell = this;
-  if (gameOver || cell.classList.contains('cell-clicked')) {
-    return;
-  }
-
-  if (firstClick == true) {
-    generateMines(cell.id);
-    stopWatchHandler('start');
-    firstClick = false;
-  }
 
   const flagButton = document.getElementById('flag-btn');
-
   if (flagButton.classList.contains('flag-btn-active')) {
-    if (!cell.innerText) {
+    if (!cell.innerText && cell.classList.contains('board-cell')) {
       cell.innerText = '🚩';
       flagsLeft--;
-    } else {
+    } else if(cell.innerText == '🚩') {
       cell.innerText = '';
       flagsLeft++;
     }
@@ -61,6 +69,24 @@ function cellClicked() {
     }
     return;
   }
+
+  if (cell.innerText == '🚩') {
+    return;
+  }
+
+  if (firstClick == true) {
+    generateMines(cell.id);
+    stopWatchHandler('start');
+    firstClick = false;
+  }
+
+  // if (cell.innerText) {
+  //   clickOnNumberCell(cell.id);
+  // }
+
+
+
+  
 
   if (minesLocation.includes(cell.id) && !cell.innerText) {
     cell.style.backgroundColor = 'red';
@@ -209,16 +235,29 @@ const paintTilesWhereMinesAre = () => {
 const stopGame = (state) => {
   const board = getBoard2dArray();
 
-  stopWatchHandler('stop')
+  stopWatchHandler('stop');
+
+  document.getElementById('board').insertAdjacentHTML('afterend',`<p id="stop-game-text"></p>`)
+  const stopGameText = document.getElementById('stop-game-text')
+
 
   if (state === 'lose') {
     revealMines();
+    stopGameText.innerText = 'You Lose...'
+    stopGameText.style.color = '#fb4949'
+    
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < columns; c++) {
         board[r][c].removeEventListener('click', cellClicked);
       }
     }
   } else if (state === 'win') {
-    alert('you won!');
+    stopGameText.innerText = 'You Win!';
+    stopGameText.style.color = '#35f43d'
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < columns; c++) {
+        board[r][c].removeEventListener('click', cellClicked);
+      }
+    }
   }
 };

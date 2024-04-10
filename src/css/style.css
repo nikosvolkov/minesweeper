@@ -41,6 +41,11 @@ body {
   background-color: #ff5f3f;
 }
 
+#app{
+  display: flex;
+  flex-direction: column;
+}
+
 /* Board */
 
 .game-board {
@@ -86,6 +91,14 @@ body {
   font-size: 30px;
 
   position: relative;
+}
+
+#stop-game-text{
+  padding: 0;
+  margin: 0 auto;
+  font-size: 60px;
+  line-height: 1.2;
+  font-family: 'Kanit', sans-serif;
 }
 
 #stopwatch{
