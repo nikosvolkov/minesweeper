@@ -10,6 +10,7 @@ let flagsLeft = minesCount;
 
 export const startgame = () => {
   document.getElementById('start-game-btn').remove();
+  document.getElementById('settings-btn').remove();
 
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('time-flag-container');

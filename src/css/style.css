@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'ArcadeClassic';
+  src: url(../../fonts/ARCADECLASSIC.TTF);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -10,6 +15,9 @@ body {
 
 .game-header{
   margin: 0;
+  font-family: 'ArcadeClassic', sans-serif;
+  font-size: 35px;
+  letter-spacing: 0.1em;
 }
 
 .container {
@@ -20,7 +28,7 @@ body {
   height: 100svh;
 }
 
-/* Start Game Button */
+/* Buttons */
 
 #start-game-btn {
   margin-top: 15px;
@@ -44,6 +52,30 @@ body {
   cursor: pointer;
   box-shadow: 0 0 10px -2px black;
   background-color: #ff5f3f;
+}
+
+#settings-btn{
+  margin-top: 20px;
+  padding: 10px 26px;
+
+  font-family: 'Rubik', sans-serif;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #9a9a9a;
+
+  box-shadow: 0 0 12px -2px black;
+
+  border: 0;
+  border-radius: 10px;
+
+  transition: all 0.3s ease-in-out;
+}
+
+#settings-btn:hover {
+  cursor: pointer;
+  box-shadow: 0 0 10px -2px black;
+  background-color: #939393;
 }
 
 #app{
