@@ -13,10 +13,11 @@ body {
   overflow: hidden;
 }
 
-.game-header{
+.game-header {
   margin: 0;
   font-family: 'ArcadeClassic', sans-serif;
   font-size: 35px;
+  margin-left: 6px;
   letter-spacing: 0.1em;
 }
 
@@ -26,6 +27,84 @@ body {
   align-items: center;
   justify-content: center;
   height: 100svh;
+  width: fit-content;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Settings */
+
+.settings-container {
+  font-family: 'Rubik', sans-serif;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 10px 6px;
+  gap: 20px;
+  width: 80%;
+  background-color: #b0b0b0;
+
+  border: 3px solid #d1d1d1;
+  border-radius: 10px;
+}
+
+.width-container,
+.height-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.settings-right-side{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.settings-inputs {
+  width: 50px;
+  height: 30px;
+}
+.settings-inputs::-webkit-inner-spin-button,
+.settings-inputs::-webkit-outer-spin-button{
+  -webkit-appearance: none;
+}
+.settings-inputs[type=number]{
+  -moz-appearance: none;
+}
+
+.width-height-btns {
+  border: none;
+  font-family: 'Rubik', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  width: 30px;
+  padding: 1px 7px;
+  line-height: 0.9;
+  background-color: #ffffff;
+}
+
+.width-height-btns:hover{
+  cursor: pointer;
+  background-color: #e6e6e6;
+}
+
+.plus-btn-border{
+  border-radius: 0 3px 3px 0;
+}
+
+.minus-btn-border{
+  border-radius: 3px 0 0 3px;
 }
 
 /* Buttons */
@@ -54,7 +133,7 @@ body {
   background-color: #ff5f3f;
 }
 
-#settings-btn{
+#settings-btn {
   margin-top: 20px;
   padding: 10px 26px;
 
@@ -76,11 +155,6 @@ body {
   cursor: pointer;
   box-shadow: 0 0 10px -2px black;
   background-color: #939393;
-}
-
-#app{
-  display: flex;
-  flex-direction: column;
 }
 
 /* Board */
@@ -118,7 +192,7 @@ body {
   user-select: none;
 }
 
-.time-flag-container{
+.time-flag-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -130,7 +204,7 @@ body {
   position: relative;
 }
 
-#stop-game-text{
+#stop-game-text {
   padding: 0;
   margin: 0 auto;
   font-size: 60px;
@@ -138,7 +212,7 @@ body {
   font-family: 'Kanit', sans-serif;
 }
 
-#stopwatch{
+#stopwatch {
   position: absolute;
   width: 105px;
   right: -5px;
@@ -224,29 +298,28 @@ body {
   outline: 2px solid #797979;
 }
 
-@media (max-height:700px) {
-  .game-board{
+@media (max-height: 700px) {
+  .game-board {
     width: 420px;
     height: 420px;
 
     grid-template-columns: repeat(10, 40px);
     background: linear-gradient(to right, #7a7a7a, transparent 1px 40px),
-    linear-gradient(to bottom, #7a7a7a, transparent 1px 40px), #dbdbdb;
+      linear-gradient(to bottom, #7a7a7a, transparent 1px 40px), #dbdbdb;
     background-size: 40px 40px;
   }
-  
 
-  .board-cell{
+  .board-cell {
     width: 40px;
     height: 40px;
   }
 
-  .cell-clicked{
+  .cell-clicked {
     width: 40px;
     height: 40px;
   }
 
-  .cell-bomb{
+  .cell-bomb {
     width: 40px;
     height: 40px;
   }
