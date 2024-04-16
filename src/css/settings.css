@@ -27,7 +27,7 @@ body {
 .game-header {
   margin: 0;
   font-family: 'ArcadeClassic', sans-serif;
-  font-size: 35px;
+  font-size: 50px;
   margin-left: 6px;
   letter-spacing: 0.1em;
 }
@@ -41,7 +41,7 @@ body {
   padding: 10px 6px;
   gap: 20px;
   width: 80%;
-  background-color: #c3c3c3;
+  background-color: #dadada;
 
   border: 3px solid #8a8a8a;
   border-radius: 10px;
@@ -53,8 +53,7 @@ body {
   gap: 20px;
 }
 
-.width-container,
-.height-container {
+.settings-row-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -70,6 +69,16 @@ body {
   gap: 5px;
 }
 
+#mines-amount-percent{
+  font-size: 10px;
+  color: #848484;
+}
+
+.mines-percent-group{
+  display: flex;
+  flex-direction: column;
+}
+
 .settings-inputs {
   width: 50px;
   height: 30px;
@@ -82,7 +91,7 @@ body {
   -moz-appearance: none;
 }
 
-.width-height-btns {
+.change-value-btns {
   border: none;
   font-family: 'Rubik', sans-serif;
   font-size: 24px;
@@ -90,16 +99,23 @@ body {
   width: 30px;
   padding: 1px 7px;
   line-height: 0.9;
-  background-color: #ffc8c8;
+  background-color: #ffca61;
 
   box-shadow: 2px 2px 5px -3px #ffffff inset, 2px 2px 5px -3px #757575;
 
   transition: 0.2s;
 }
 
-.width-height-btns:hover{
+.change-value-btns:hover{
   cursor: pointer;
-  background-color: #e6e6e6;
+  background-color: #ffd451;
+  scale: 1.1
+}
+
+.change-value-btns:active{
+  cursor: pointer;
+  background-color: #ffd451;
+  scale: 0.9;
 }
 
 .plus-btn-border{

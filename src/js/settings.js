@@ -1,12 +1,18 @@
+const homeButton = document.getElementById('home-button')
+homeButton.addEventListener('click', () => {
+  window.location.href = 'index.html'
+})
 
-if (window.location.href == 'index.html'){
-  const homeButton = document.getElementById('home-button')
-  homeButton.addEventListener('click', () =>{
-    console.log('home');
-    window.location.href = 'index.html'
-  })
+const changeInputValueButtons = document.querySelectorAll('.change-value-btns')
+
+for (const button of changeInputValueButtons){
+  button.addEventListener('click', clickInputValueButton)
 }
 
-export const clickSettingsButton = () =>{
-  window.location.href = 'settings.html'
+function clickInputValueButton(){
+  const buttonId = this.id;
+  const relatedInputId = buttonId.split('-')[0] + '-input'
+
+  console.log(buttonId);
 }
+

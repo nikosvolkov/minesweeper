@@ -11,12 +11,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background-color: #abb3df;
   overflow: hidden;
+  margin: 0;
 }
 
 .game-header {
   margin: 0;
   font-family: 'ArcadeClassic', sans-serif;
-  font-size: 35px;
+  font-size: 50px;
   margin-left: 6px;
   letter-spacing: 0.1em;
 }

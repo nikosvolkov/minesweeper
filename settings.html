@@ -21,49 +21,75 @@
       <h1 class="game-header">Minesweeper</h1>
       <div class="settings-container">
         <section class="change-board-size">
-          <div class="width-container">
+          <div class="settings-row-container ">
             <label for="board-width">Width</label>
             <div class="settings-right-side">
               <input
                 type="number"
                 min="8"
                 max="30"
-                id="settings-width"
+                id="width-input"
                 class="settings-inputs"
               />
               <button
-                id="board-width-minus"
-                class="width-height-btns minus-btn-border"
+                id="width-minus"
+                class="change-value-btns minus-btn-border"
               >
                 -
               </button>
               <button
-                id="board-width-plus"
-                class="width-height-btns plus-btn-border"
+                id="width-plus"
+                class="change-value-btns plus-btn-border"
               >
                 +
               </button>
             </div>
           </div>
-          <div class="height-container">
-            <label for="board-height">Height</label>
+          <div class="settings-row-container ">
+            <label for="settings-height">Height</label>
             <div class="settings-right-side">
               <input
                 type="number"
                 min="8"
                 max="30"
-                id="settings-height"
+                id="height-input"
                 class="settings-inputs"
               />
               <button
-                id="board-height-minus"
-                class="width-height-btns minus-btn-border"
+                id="height-minus"
+                class="change-value-btns minus-btn-border"
               >
                 -
               </button>
               <button
-                id="board-height-plus "
-                class="width-height-btns plus-btn-border"
+                id="height-plus "
+                class="change-value-btns plus-btn-border"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div class="settings-row-container ">
+            <div class="mines-percent-group">
+            <label for="settings-mines">Mines Amount</label>
+            <span id="mines-amount-percent">20.3%</span></div>
+            <div class="settings-right-side">
+              <input
+                type="number"
+                min="8"
+                max="30"
+                id="mines-input"
+                class="settings-inputs"
+              />
+              <button
+                id="mines-minus"
+                class="change-value-btns minus-btn-border"
+              >
+                -
+              </button>
+              <button
+                id="mines-plus"
+                class="change-value-btns plus-btn-border"
               >
                 +
               </button>
@@ -71,8 +97,11 @@
           </div>
         </section>
         <button id="home-button" class="home-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" 
-          fill="#fc6e51">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            fill="#fc6e51"
+          >
             <use href="images/sprites.svg#settings-home-btn"></use>
           </svg>
         </button>
