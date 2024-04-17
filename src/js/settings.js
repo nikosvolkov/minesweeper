@@ -3,16 +3,17 @@ homeButton.addEventListener('click', () => {
   window.location.href = 'index.html'
 })
 
-const changeInputValueButtons = document.querySelectorAll('.change-value-btns')
-
-for (const button of changeInputValueButtons){
-  button.addEventListener('click', clickInputValueButton)
+const buttonActions = {
+  plus(input){input.value++},
+  minus(input){input.value--}
 }
 
-function clickInputValueButton(){
-  const buttonId = this.id;
-  const relatedInputId = buttonId.split('-')[0] + '-input'
-
-  console.log(buttonId);
-}
+const buttonCountainer = document.querySelector('.change-board-size')
+buttonCountainer.addEventListener('click', (event) =>{
+  const buttonElement = event.target.closest('button')
+  if (buttonElement == null) return;
+  const operation = buttonElement.dataset.operation;
+  const relatedInput = event.target.parentNode.querySelector('input')
+  buttonActions[operation](relatedInput)
+})
 
