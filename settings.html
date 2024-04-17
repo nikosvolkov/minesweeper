@@ -21,8 +21,8 @@
       <h1 class="game-header">Minesweeper</h1>
       <div class="settings-container">
         <section class="change-board-size">
-          <div class="settings-row-container ">
-            <label for="board-width">Width</label>
+          <div class="settings-row-container">
+            <label for="board-width" id="width">Width</label>
             <div class="settings-right-side">
               <input
                 type="number"
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="settings-row-container ">
-            <label for="settings-height">Height</label>
+            <label for="settings-height" id="height">Height</label>
             <div class="settings-right-side">
               <input
                 type="number"
@@ -69,13 +69,12 @@
           </div>
           <div class="settings-row-container ">
             <div class="mines-percent-group">
-            <label for="settings-mines">Mines Amount</label>
+            <label for="settings-mines" id="mines">Mines Amount</label>
             <span id="mines-amount-percent">20.3%</span></div>
             <div class="settings-right-side">
               <input
+                id="mines-input"
                 type="number"
-                min="8"
-                max="30"
                 class="settings-inputs"
               />
               <button
