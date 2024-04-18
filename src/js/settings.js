@@ -1,6 +1,6 @@
 let currentWidthValue = null;
 let currentHeightValue = null;
-
+let currentMinesAmount = null;
 createInputPlaceholders();
 
 const homeButton = document.getElementById('home-button');
@@ -9,7 +9,7 @@ homeButton.addEventListener('click', () => {
 });
 
 const buttonActions = {
-  plus(input, sizeName) {
+  plus(input, paramName) {
     let currentValue = parseInt(input.value);
     const maxValue = parseInt(input.getAttribute('max'));
 
@@ -18,13 +18,18 @@ const buttonActions = {
       currentValue = parseInt(input.value);
     }
 
-    if (sizeName == 'width') {
+    if (paramName == 'width') {
       currentWidthValue = currentValue;
-    } else if (sizeName == 'height') {
+      saveParamsToLocalStorage();
+    } else if (paramName == 'height') {
       currentHeightValue = currentValue;
-    } else return;
+      saveParamsToLocalStorage();
+    } else if (paramName == 'mines'){
+      currentMinesAmount = currentValue;
+      saveParamsToLocalStorage();
+    };
   },
-  minus(input, sizeName) {
+  minus(input, paramName) {
     let currentValue = parseInt(input.value);
     const minValue = parseInt(input.getAttribute('min'));
 
@@ -33,39 +38,58 @@ const buttonActions = {
       currentValue = parseInt(input.value);
     }
 
-    if (sizeName == 'width') {
+    if (paramName == 'width') {
       currentWidthValue = currentValue;
-    } else if (sizeName == 'height') {
+      saveParamsToLocalStorage();
+    } else if (paramName == 'height') {
       currentHeightValue = currentValue;
-    } else return;
+      saveParamsToLocalStorage();
+    } else if (paramName == 'mines'){
+      currentMinesAmount = currentValue;
+      saveParamsToLocalStorage();
+    };
   },
 };
 
 const buttonCountainer = document.querySelector('.change-board-size');
 buttonCountainer.addEventListener('click', (event) => {
-
   const buttonElement = event.target.closest('button');
   if (buttonElement == null) return;
   const operation = buttonElement.dataset.operation;
   const relatedInput = event.target.parentNode.querySelector('input');
   const minValue = parseInt(relatedInput.getAttribute('min'));
-  const sizeName = relatedInput.parentNode.previousElementSibling.id;
+  const paramName = relatedInput.closest('.settings-row-container').querySelector('label').id
   const isInputNaN = isNaN(parseInt(relatedInput.value));
-  if (sizeName == 'width' && isInputNaN) {
+
+
+  //check if unput is empty
+  if (paramName == 'width' && isInputNaN) {
     currentWidthValue = minValue;
-  } else if (sizeName == 'height' && isInputNaN) {
+    relatedInput.value = currentWidthValue
+    setMinesRangeValue()
+    saveParamsToLocalStorage();
+    return;
+  } else if (paramName == 'height' && isInputNaN) {
     currentHeightValue = minValue;
-  }
-  if (isInputNaN) {
-    relatedInput.value = minValue;
-    setMinesRangeValue();
+    relatedInput.value = currentHeightValue;
+    setMinesRangeValue()
+    saveParamsToLocalStorage();
+    return;
+  } else if (paramName == 'mines' && isInputNaN) {
+    currentMinesAmount = minValue;
+    relatedInput.value = currentMinesAmount;
+    saveParamsToLocalStorage();
     return;
   }
+  // if (isInputNaN) {
+  //   relatedInput.value = minValue;
+  //   setMinesRangeValue();
+  //   return;
+  // }
 
-  buttonActions[operation](relatedInput, sizeName);
+  buttonActions[operation](relatedInput, paramName);
   setMinesRangeValue();
 });
-
 
 function setMinesRangeValue() {
   if (currentHeightValue == null || currentWidthValue == null) return;
@@ -73,7 +97,7 @@ function setMinesRangeValue() {
   const minMines = 1;
   const maxMines = Math.round(
     currentHeightValue * currentWidthValue -
-    (currentHeightValue * currentWidthValue * 40) / 100
+      (currentHeightValue * currentWidthValue * 40) / 100
   );
 
   minesInput.setAttribute('min', minMines);
@@ -82,6 +106,17 @@ function setMinesRangeValue() {
   console.log('Max Mines: ' + maxMines);
 }
 
+function saveParamsToLocalStorage() {
+  if (currentWidthValue) {
+    localStorage.setItem('width', currentWidthValue);
+  }
+  if (currentHeightValue) {
+    localStorage.setItem('height', currentHeightValue);
+  }
+  if (currentMinesAmount){
+    localStorage.setItem('mines', currentMinesAmount)
+  }
+}
 
 function createInputPlaceholders() {
   const pageInputs = document.querySelectorAll('input');
