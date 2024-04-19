@@ -12,9 +12,15 @@ const buttonActions = {
   plus(input, paramName) {
     let currentValue = parseInt(input.value);
     const maxValue = parseInt(input.getAttribute('max'));
+    const minValue = parseInt(input.getAttribute('min'));
 
     if (currentValue < maxValue) {
       input.value++;
+      currentValue = parseInt(input.value);
+    }
+
+    if (currentValue == maxValue){
+      input.value = minValue;
       currentValue = parseInt(input.value);
     }
 
@@ -32,9 +38,15 @@ const buttonActions = {
   minus(input, paramName) {
     let currentValue = parseInt(input.value);
     const minValue = parseInt(input.getAttribute('min'));
+    const maxValue = parseInt(input.getAttribute('max'))
 
     if (currentValue > minValue) {
       input.value--;
+      currentValue = parseInt(input.value);
+    }
+    
+    if (currentValue == minValue){
+      input.value = maxValue;
       currentValue = parseInt(input.value);
     }
 
@@ -52,6 +64,7 @@ const buttonActions = {
 };
 
 const buttonCountainer = document.querySelector('.change-board-size');
+buttonCountainer.addEventListener('mousedown', longPress)
 buttonCountainer.addEventListener('click', (event) => {
   const buttonElement = event.target.closest('button');
   if (buttonElement == null) return;
@@ -66,13 +79,13 @@ buttonCountainer.addEventListener('click', (event) => {
   if (paramName == 'width' && isInputNaN) {
     currentWidthValue = minValue;
     relatedInput.value = currentWidthValue
-    setMinesRangeValue()
+    setMinesInputRangeValue()
     saveParamsToLocalStorage();
     return;
   } else if (paramName == 'height' && isInputNaN) {
     currentHeightValue = minValue;
     relatedInput.value = currentHeightValue;
-    setMinesRangeValue()
+    setMinesInputRangeValue()
     saveParamsToLocalStorage();
     return;
   } else if (paramName == 'mines' && isInputNaN) {
@@ -81,17 +94,12 @@ buttonCountainer.addEventListener('click', (event) => {
     saveParamsToLocalStorage();
     return;
   }
-  // if (isInputNaN) {
-  //   relatedInput.value = minValue;
-  //   setMinesRangeValue();
-  //   return;
-  // }
 
   buttonActions[operation](relatedInput, paramName);
-  setMinesRangeValue();
+  setMinesInputRangeValue();
 });
 
-function setMinesRangeValue() {
+function setMinesInputRangeValue() {
   if (currentHeightValue == null || currentWidthValue == null) return;
   const minesInput = document.getElementById('mines-input');
   const minMines = 1;
@@ -126,4 +134,10 @@ function createInputPlaceholders() {
     const maxValue = input.getAttribute('max');
     input.setAttribute('placeholder', `${minValue}-${maxValue}`);
   });
+}
+
+
+
+function longPress(){
+  setTimeout((console.log('long press detected')),800)
 }
