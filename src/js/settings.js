@@ -65,7 +65,10 @@ const buttonActions = {
 
 const buttonCountainer = document.querySelector('.change-board-size');
 buttonCountainer.addEventListener('mousedown', longPress)
-buttonCountainer.addEventListener('click', (event) => {
+buttonCountainer.addEventListener('mouseup', resetTimer)
+buttonCountainer.addEventListener('click', inputHandler)
+
+function inputHandler(event){
   const buttonElement = event.target.closest('button');
   if (buttonElement == null) return;
   const operation = buttonElement.dataset.operation;
@@ -97,7 +100,7 @@ buttonCountainer.addEventListener('click', (event) => {
 
   buttonActions[operation](relatedInput, paramName);
   setMinesInputRangeValue();
-});
+}
 
 function setMinesInputRangeValue() {
   if (currentHeightValue == null || currentWidthValue == null) return;
@@ -137,7 +140,12 @@ function createInputPlaceholders() {
 }
 
 
+let timer = null;
+function longPress(event){
+  timer = setTimeout(inputHandler,800)
+}
 
-function longPress(){
-  setTimeout((console.log('long press detected')),800)
+function resetTimer(){
+  console.log('Timer is: ' + timer);
+  clearTimeout(timer)
 }
