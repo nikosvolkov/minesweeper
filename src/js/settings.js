@@ -17,9 +17,7 @@ const buttonActions = {
     if (currentValue < maxValue) {
       input.value++;
       currentValue = parseInt(input.value);
-    }
-
-    if (currentValue == maxValue){
+    } else if (currentValue == maxValue) {
       input.value = minValue;
       currentValue = parseInt(input.value);
     }
@@ -30,22 +28,20 @@ const buttonActions = {
     } else if (paramName == 'height') {
       currentHeightValue = currentValue;
       saveParamsToLocalStorage();
-    } else if (paramName == 'mines'){
+    } else if (paramName == 'mines') {
       currentMinesAmount = currentValue;
       saveParamsToLocalStorage();
-    };
+    }
   },
   minus(input, paramName) {
     let currentValue = parseInt(input.value);
     const minValue = parseInt(input.getAttribute('min'));
-    const maxValue = parseInt(input.getAttribute('max'))
+    const maxValue = parseInt(input.getAttribute('max'));
 
     if (currentValue > minValue) {
       input.value--;
       currentValue = parseInt(input.value);
-    }
-    
-    if (currentValue == minValue){
+    } else if (currentValue == minValue) {
       input.value = maxValue;
       currentValue = parseInt(input.value);
     }
@@ -56,36 +52,43 @@ const buttonActions = {
     } else if (paramName == 'height') {
       currentHeightValue = currentValue;
       saveParamsToLocalStorage();
-    } else if (paramName == 'mines'){
+    } else if (paramName == 'mines') {
       currentMinesAmount = currentValue;
       saveParamsToLocalStorage();
-    };
+    }
   },
 };
 
 const buttonCountainer = document.querySelector('.change-board-size');
-buttonCountainer.addEventListener('mousedown', longPress)
-buttonCountainer.addEventListener('click', (event) => {
+
+// long press handler
+buttonCountainer.addEventListener('mousedown', longPress);
+buttonCountainer.addEventListener('mouseup', resetTimer);
+
+// click handler
+buttonCountainer.addEventListener('click', inputHandler)
+function inputHandler(event){
   const buttonElement = event.target.closest('button');
   if (buttonElement == null) return;
   const operation = buttonElement.dataset.operation;
   const relatedInput = event.target.parentNode.querySelector('input');
   const minValue = parseInt(relatedInput.getAttribute('min'));
-  const paramName = relatedInput.closest('.settings-row-container').querySelector('label').id
+  const paramName = relatedInput
+    .closest('.settings-row-container')
+    .querySelector('label').id;
   const isInputNaN = isNaN(parseInt(relatedInput.value));
-
 
   //check if unput is empty
   if (paramName == 'width' && isInputNaN) {
     currentWidthValue = minValue;
-    relatedInput.value = currentWidthValue
-    setMinesInputRangeValue()
+    relatedInput.value = currentWidthValue;
+    setMinesInputRangeValue();
     saveParamsToLocalStorage();
     return;
   } else if (paramName == 'height' && isInputNaN) {
     currentHeightValue = minValue;
     relatedInput.value = currentHeightValue;
-    setMinesInputRangeValue()
+    setMinesInputRangeValue();
     saveParamsToLocalStorage();
     return;
   } else if (paramName == 'mines' && isInputNaN) {
@@ -97,7 +100,7 @@ buttonCountainer.addEventListener('click', (event) => {
 
   buttonActions[operation](relatedInput, paramName);
   setMinesInputRangeValue();
-});
+}
 
 function setMinesInputRangeValue() {
   if (currentHeightValue == null || currentWidthValue == null) return;
@@ -121,8 +124,8 @@ function saveParamsToLocalStorage() {
   if (currentHeightValue) {
     localStorage.setItem('height', currentHeightValue);
   }
-  if (currentMinesAmount){
-    localStorage.setItem('mines', currentMinesAmount)
+  if (currentMinesAmount) {
+    localStorage.setItem('mines', currentMinesAmount);
   }
 }
 
@@ -136,8 +139,21 @@ function createInputPlaceholders() {
   });
 }
 
+let timer = null;
+let interval = null
+function longPress(event) {
+  timer = setTimeout(() => {
+    let count = 0;
+    interval = setInterval(() => {
+      inputHandler(event);
+      count++
+      console.log(count);
+    }, 70);
+  }, 1000);
+}
 
-
-function longPress(){
-  setTimeout((console.log('long press detected')),800)
+function resetTimer() {
+  clearTimeout(timer);
+  clearInterval(interval)
+  console.log('timer cleared');
 }
