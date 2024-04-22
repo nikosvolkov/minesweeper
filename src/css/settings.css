@@ -104,6 +104,8 @@ body {
   box-shadow: 2px 2px 5px -3px #ffffff inset, 2px 2px 5px -3px #757575;
 
   transition: 0.2s;
+
+  user-select: none;
 }
 
 .change-value-btns:hover{

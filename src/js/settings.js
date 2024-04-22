@@ -62,12 +62,16 @@ const buttonActions = {
 const buttonCountainer = document.querySelector('.change-board-size');
 
 // long press handler
-buttonCountainer.addEventListener('mousedown', longPress);
-buttonCountainer.addEventListener('mouseup', resetTimer);
+if ('ontouchstart' in document.body) {
+  buttonCountainer.addEventListener('touchstart', longPress);
+  
+} else {
+  buttonCountainer.addEventListener('mousedown', longPress);buttonCountainer.addEventListener('mouseup', resetTimer);
+}
 
 // click handler
-buttonCountainer.addEventListener('click', inputHandler)
-function inputHandler(event){
+buttonCountainer.addEventListener('click', inputHandler);
+function inputHandler(event) {
   const buttonElement = event.target.closest('button');
   if (buttonElement == null) return;
   const operation = buttonElement.dataset.operation;
@@ -140,20 +144,20 @@ function createInputPlaceholders() {
 }
 
 let timer = null;
-let interval = null
+let interval = null;
 function longPress(event) {
+  // if('ontouchstart' in document.body){
+  //   event.preventDefault();
+  // }
+
   timer = setTimeout(() => {
-    let count = 0;
     interval = setInterval(() => {
       inputHandler(event);
-      count++
-      console.log(count);
     }, 70);
-  }, 1000);
+  }, 500);
 }
 
 function resetTimer() {
   clearTimeout(timer);
-  clearInterval(interval)
-  console.log('timer cleared');
+  clearInterval(interval);
 }
