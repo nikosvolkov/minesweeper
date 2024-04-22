@@ -165,7 +165,7 @@ function longPress(event) {
   // const buttonElement = event.target.closest('button');
   // if (buttonElement == null) return;
 
-  if ('ontouchstart' in document.body && event.cancelable == true) {
+  if ('ontouchstart' in document.body && event.cancelable == true && event.target.tagName == 'BUTTON') {
     event.preventDefault();
   }
   if ('ontouchstart' in document.body) {
