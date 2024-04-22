@@ -21,6 +21,9 @@ const buttonActions = {
       input.value = minValue;
       currentValue = parseInt(input.value);
     }
+    if (currentValue > maxValue) {
+      input.value = maxValue;
+    }
 
     if (paramName == 'width') {
       currentWidthValue = currentValue;
@@ -45,6 +48,9 @@ const buttonActions = {
       input.value = maxValue;
       currentValue = parseInt(input.value);
     }
+    if (currentValue > maxValue) {
+      input.value = maxValue;
+    }
 
     if (paramName == 'width') {
       currentWidthValue = currentValue;
@@ -63,10 +69,17 @@ const buttonCountainer = document.querySelector('.change-board-size');
 
 // long press handler
 if ('ontouchstart' in document.body) {
-  buttonCountainer.addEventListener('touchstart', longPress);
-  
+  buttonCountainer.addEventListener('touchstart', (event) => {
+    longPress(event);
+    inputHandler(event);
+  });
+  buttonCountainer.addEventListener('touchend', (event) => {
+    resetTimer(), removeButtonAnimationOnMobile(event);
+  });
 } else {
-  buttonCountainer.addEventListener('mousedown', longPress);buttonCountainer.addEventListener('mouseup', resetTimer);
+  buttonCountainer.addEventListener('mousedown', longPress);
+  buttonCountainer.addEventListener('mouseout', resetTimer);
+  buttonCountainer.addEventListener('mouseup', resetTimer);
 }
 
 // click handler
@@ -74,6 +87,9 @@ buttonCountainer.addEventListener('click', inputHandler);
 function inputHandler(event) {
   const buttonElement = event.target.closest('button');
   if (buttonElement == null) return;
+  if ('ontouchstart' in document.body) {
+    addButtonAnimationOnMobile(event);
+  }
   const operation = buttonElement.dataset.operation;
   const relatedInput = event.target.parentNode.querySelector('input');
   const minValue = parseInt(relatedInput.getAttribute('min'));
@@ -146,10 +162,15 @@ function createInputPlaceholders() {
 let timer = null;
 let interval = null;
 function longPress(event) {
-  // if('ontouchstart' in document.body){
-  //   event.preventDefault();
-  // }
+  // const buttonElement = event.target.closest('button');
+  // if (buttonElement == null) return;
 
+  if ('ontouchstart' in document.body && event.cancelable == true) {
+    event.preventDefault();
+  }
+  if ('ontouchstart' in document.body) {
+    addButtonAnimationOnMobile(event);
+  }
   timer = setTimeout(() => {
     interval = setInterval(() => {
       inputHandler(event);
@@ -160,4 +181,17 @@ function longPress(event) {
 function resetTimer() {
   clearTimeout(timer);
   clearInterval(interval);
+}
+
+function addButtonAnimationOnMobile(event) {
+  const button = event.target.closest('button');
+  button.style.scale = 0.9;
+  button.style.backgroundColor = '#ffd451';
+}
+
+function removeButtonAnimationOnMobile(event) {
+  // const event = this;
+  const button = event.target.closest('button');
+  button.style.scale = 1;
+  button.style.backgroundColor = '#ffca61';
 }
