@@ -1,17 +1,17 @@
 import { createBoard } from './board';
 import { boardParameters } from './consts';
-import { createFlagButton } from './ui';
+import { createBottomButtons } from './ui';
 import { getBoard2dArray, stopWatchHandler } from './utils';
 
-let minesCount = 10;
 const minesLocation = [];
 let firstClick = true;
+const rows = boardParameters.rows;
+const columns = boardParameters.columns;
+let minesCount = boardParameters.mines;
 let flagsLeft = minesCount;
-const rows = boardParameters.rows
-const columns = boardParameters.columns
-const mines = boardParameters.rows
 
 export const startgame = () => {
+
   document.getElementById('start-game-btn').remove();
   document.getElementById('settings-btn').remove();
 
@@ -25,32 +25,30 @@ export const startgame = () => {
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < columns; c++) {
         board[r][c].addEventListener('click', cellClicked);
+        board[r][c].addEventListener('mousedown', longClickHandler);
+        board[r][c].addEventListener('mouseup', resetLongClick);
       }
     }
   });
-  createFlagButton();
+  createBottomButtons();
 };
 
-// function clickOnNumberCell(cellId) {
-//   let flagsAround = 0;
-//   const r = parseInt(cellId.split('-').at(0));
-//   const c = parseInt(cellId.split('-').at(1));
-//   for (let row = r - 1; row <= r + 1; row++) {
-//     for (let col = c - 1; col <= c + 1; col++) {
-//       if (row !== r || col !== c) {
-//         const cellAroundNumber = document.getElementById(`${row}-${col}`);
-//         if (
-//           cellAroundNumber.classList.contains('board-cell') &&
-//           cellAroundNumber.innerText == '🚩'
-//         ) {
-//           flagsAround++;
+let timer = null;
+function longClickHandler(event){
+  // if ('ontouchstart' in document.body && event.cancelable == true && event.target.tagName == 'BUTTON') {
+  //   event.preventDefault();
+  // }
 
-//         }
-//       }
-//     }
-//   }
-//   console.log(flagsAround);
-// }
+
+
+  timer = setTimeout(() => {
+    
+  }, 500);
+}
+
+function resetLongClick(){
+  clearTimeout(timer);
+}
 
 function cellClicked() {
   let cell = this;
@@ -81,10 +79,6 @@ function cellClicked() {
     stopWatchHandler('start');
     firstClick = false;
   }
-
-  // if (cell.innerText) {
-  //   clickOnNumberCell(cell.id);
-  // }
 
   if (minesLocation.includes(cell.id) && !cell.innerText) {
     cell.style.backgroundColor = 'red';

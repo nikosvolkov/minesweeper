@@ -2,7 +2,6 @@ import { boardParameters } from './consts';
 
 const rows = boardParameters.rows
 const columns = boardParameters.columns
-const mines = boardParameters.rows
 
 export const createBoard = () => {
   const boardArray = [];
@@ -10,6 +9,7 @@ export const createBoard = () => {
   const boardDiv = document.createElement('div');
   boardDiv.id = 'board';
   boardDiv.classList.add('game-board');
+  boardDiv.style.gridTemplateColumns = `repeat(${rows}, 50px)`
   document.getElementById('app').append(boardDiv);
 
   for (let r = 0; r < rows; r++) {

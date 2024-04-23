@@ -123,6 +123,11 @@ body {
   user-select: none;
 }
 
+.board-cell:hover{
+  cursor: pointer;
+  background-color: #a4a4a4;
+}
+
 .time-flag-container {
   display: flex;
   flex-direction: row;
@@ -205,7 +210,15 @@ body {
   color: gray;
 }
 
-/* Flag Button */
+/* Bottom Buttons */
+
+.bottom-buttons-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 200px;
+  margin: 0 auto;
+}
 
 .flag-btn {
   margin: 15px auto;
@@ -229,6 +242,27 @@ body {
 .flag-btn-active {
   background-color: #e3e3e3;
   outline: 2px solid #797979;
+}
+
+.home-btn{
+  width: 50px;
+  padding: 3px 10px;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 20px;
+  background-color: #d4f2ff;
+  box-shadow: 2px 2px 5px -3px #ffffff inset, 2px 2px 5px -3px #737373;
+
+  transition: 0.2s;
+}
+
+.home-btn:hover{
+  cursor: pointer;
+  scale: 1.1;
+}
+
+.home-btn:active{
+  scale: 0.9;
 }
 
 @media (max-width: 700px) {

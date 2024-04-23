@@ -162,9 +162,6 @@ function createInputPlaceholders() {
 let timer = null;
 let interval = null;
 function longPress(event) {
-  // const buttonElement = event.target.closest('button');
-  // if (buttonElement == null) return;
-
   if ('ontouchstart' in document.body && event.cancelable == true && event.target.tagName == 'BUTTON') {
     event.preventDefault();
   }
@@ -190,7 +187,6 @@ function addButtonAnimationOnMobile(event) {
 }
 
 function removeButtonAnimationOnMobile(event) {
-  // const event = this;
   const button = event.target.closest('button');
   button.style.scale = 1;
   button.style.backgroundColor = '#ffca61';
