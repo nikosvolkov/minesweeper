@@ -1,4 +1,8 @@
-import { rows, columns } from './consts';
+import { boardParameters } from './consts';
+
+const rows = boardParameters.rows
+const columns = boardParameters.columns
+const mines = boardParameters.rows
 
 export const getBoard2dArray = () => {
   const board = [];

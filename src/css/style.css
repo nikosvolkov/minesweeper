@@ -218,6 +218,8 @@ body {
   background-color: #cccccc;
 
   display: block;
+
+  user-select: none;
 }
 
 .flag-btn:hover {
@@ -229,7 +231,7 @@ body {
   outline: 2px solid #797979;
 }
 
-@media (max-height: 700px) {
+@media (max-width: 700px) {
   .game-board {
     width: 420px;
     height: 420px;

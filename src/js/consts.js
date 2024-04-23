@@ -1,5 +1,5 @@
-const ROWS = 10;
-const COLUMNS = 10;
-
-export const rows = ROWS
-export const columns = COLUMNS
+export const boardParameters = {
+  rows: localStorage.getItem('width'),
+  columns: localStorage.getItem('height'),
+  mines: localStorage.getItem('mines')
+}

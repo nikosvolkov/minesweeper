@@ -1,5 +1,5 @@
 import { createBoard } from './board';
-import { rows, columns } from './consts';
+import { boardParameters } from './consts';
 import { createFlagButton } from './ui';
 import { getBoard2dArray, stopWatchHandler } from './utils';
 
@@ -7,6 +7,9 @@ let minesCount = 10;
 const minesLocation = [];
 let firstClick = true;
 let flagsLeft = minesCount;
+const rows = boardParameters.rows
+const columns = boardParameters.columns
+const mines = boardParameters.rows
 
 export const startgame = () => {
   document.getElementById('start-game-btn').remove();
@@ -26,8 +29,6 @@ export const startgame = () => {
     }
   });
   createFlagButton();
-  console.log('inside startgame(): ');
-  console.log(board);
 };
 
 // function clickOnNumberCell(cellId) {
@@ -43,7 +44,7 @@ export const startgame = () => {
 //           cellAroundNumber.innerText == '🚩'
 //         ) {
 //           flagsAround++;
-          
+
 //         }
 //       }
 //     }
@@ -59,7 +60,7 @@ function cellClicked() {
     if (!cell.innerText && cell.classList.contains('board-cell')) {
       cell.innerText = '🚩';
       flagsLeft--;
-    } else if(cell.innerText == '🚩') {
+    } else if (cell.innerText == '🚩') {
       cell.innerText = '';
       flagsLeft++;
     }
@@ -84,10 +85,6 @@ function cellClicked() {
   // if (cell.innerText) {
   //   clickOnNumberCell(cell.id);
   // }
-
-
-
-  
 
   if (minesLocation.includes(cell.id) && !cell.innerText) {
     cell.style.backgroundColor = 'red';
@@ -238,15 +235,16 @@ const stopGame = (state) => {
 
   stopWatchHandler('stop');
 
-  document.getElementById('board').insertAdjacentHTML('afterend',`<p id="stop-game-text"></p>`)
-  const stopGameText = document.getElementById('stop-game-text')
-
+  document
+    .getElementById('board')
+    .insertAdjacentHTML('afterend', `<p id="stop-game-text"></p>`);
+  const stopGameText = document.getElementById('stop-game-text');
 
   if (state === 'lose') {
     revealMines();
-    stopGameText.innerText = 'You Lose...'
-    stopGameText.style.color = '#fb4949'
-    
+    stopGameText.innerText = 'You Lose...';
+    stopGameText.style.color = '#fb4949';
+
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < columns; c++) {
         board[r][c].removeEventListener('click', cellClicked);
@@ -254,7 +252,7 @@ const stopGame = (state) => {
     }
   } else if (state === 'win') {
     stopGameText.innerText = 'You Win!';
-    stopGameText.style.color = '#35f43d'
+    stopGameText.style.color = '#35f43d';
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < columns; c++) {
         board[r][c].removeEventListener('click', cellClicked);
