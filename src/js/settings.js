@@ -1,12 +1,25 @@
-let currentWidthValue = null;
-let currentHeightValue = null;
-let currentMinesAmount = null;
+import { boardParameters } from './consts';
+
+let currentWidthValue = boardParameters.rows;
+let currentHeightValue = boardParameters.columns;
+let currentMinesAmount = boardParameters.mines;
+setValuesToInputsFromLS();
 createInputPlaceholders();
+setMinesInputRangeValue();
 
 const homeButton = document.getElementById('home-button');
 homeButton.addEventListener('click', () => {
   window.location.href = 'index.html';
 });
+
+const resetButton = document.getElementById('reset-button');
+resetButton.addEventListener('click', resetSettingsToDefault);
+const buttonCountainer = document.querySelector('.change-board-size');
+buttonCountainer.addEventListener('click', inputHandler);
+
+// document.querySelectorAll('input').forEach((input)=>{
+//   input.addEventListener('change', inputHandler)
+// })
 
 const buttonActions = {
   plus(input, paramName) {
@@ -65,8 +78,6 @@ const buttonActions = {
   },
 };
 
-const buttonCountainer = document.querySelector('.change-board-size');
-
 // long press handler
 if ('ontouchstart' in document.body) {
   buttonCountainer.addEventListener('touchstart', (event) => {
@@ -83,7 +94,6 @@ if ('ontouchstart' in document.body) {
 }
 
 // click handler
-buttonCountainer.addEventListener('click', inputHandler);
 function inputHandler(event) {
   const buttonElement = event.target.closest('button');
   if (buttonElement == null) return;
@@ -159,10 +169,36 @@ function createInputPlaceholders() {
   });
 }
 
+function resetSettingsToDefault() {
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach((input) => {
+    input.value = 10;
+  });
+  currentHeightValue = currentWidthValue = currentMinesAmount = 10;
+  saveParamsToLocalStorage();
+}
+
+function setValuesToInputsFromLS() {
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach((input) => {
+    const paramName = input
+      .closest('.settings-row-container')
+      .querySelector('label').id;
+    const relatedLSValue = localStorage.getItem(paramName);
+    if (relatedLSValue) {
+      input.value = relatedLSValue;
+    }
+  });
+}
+
 let timer = null;
 let interval = null;
 function longPress(event) {
-  if ('ontouchstart' in document.body && event.cancelable == true && event.target.tagName == 'BUTTON') {
+  if (
+    'ontouchstart' in document.body &&
+    event.cancelable == true &&
+    event.target.tagName == 'BUTTON'
+  ) {
     event.preventDefault();
   }
   if ('ontouchstart' in document.body) {

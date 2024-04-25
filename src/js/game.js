@@ -10,10 +10,12 @@ const columns = boardParameters.columns;
 let minesCount = boardParameters.mines;
 let flagsLeft = minesCount;
 
-export const startgame = () => {
-
-  document.getElementById('start-game-btn').remove();
-  document.getElementById('settings-btn').remove();
+export const startgame = (event) => {
+  if (event && event.target.id == 'start-game-btn'){
+    document.getElementById('start-game-btn').remove();
+    document.getElementById('settings-btn').remove();
+  }
+  
 
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('time-flag-container');
@@ -33,20 +35,28 @@ export const startgame = () => {
   createBottomButtons();
 };
 
+export const restartGame = () => {
+  const gameDiv = document.getElementById('app');
+  gameDiv.innerHTML = '';
+  minesCount = boardParameters.mines
+  minesLocation.length = 0;
+  firstClick = true;
+  flagsLeft = minesCount;
+
+  stopWatchHandler('stop')
+  startgame();
+};
+
 let timer = null;
-function longClickHandler(event){
+function longClickHandler(event) {
   // if ('ontouchstart' in document.body && event.cancelable == true && event.target.tagName == 'BUTTON') {
   //   event.preventDefault();
   // }
 
-
-
-  timer = setTimeout(() => {
-    
-  }, 500);
+  timer = setTimeout(() => {}, 500);
 }
 
-function resetLongClick(){
+function resetLongClick() {
   clearTimeout(timer);
 }
 

@@ -27,5 +27,6 @@ export const stopWatchHandler = (state) => {
     }, 1000);
   }else if (state == 'stop'){
     clearInterval(stopWatch)
+    stopWatchValue = 0;
   }
 };
