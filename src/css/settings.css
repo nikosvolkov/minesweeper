@@ -166,3 +166,10 @@ body {
   background-color: #acffae;
 }
 
+.input-invalid{
+  border: 2px red solid;
+}
+
+.input-invalid:focus{
+  outline-color: red;
+}

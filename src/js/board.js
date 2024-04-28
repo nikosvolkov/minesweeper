@@ -9,7 +9,7 @@ export const createBoard = () => {
   const boardDiv = document.createElement('div');
   boardDiv.id = 'board';
   boardDiv.classList.add('game-board');
-  boardDiv.style.gridTemplateColumns = `repeat(${rows}, 50px)`
+  // boardDiv.style.gridTemplateRows = `repeat(${rows})`
   document.getElementById('app').append(boardDiv);
 
   for (let r = 0; r < rows; r++) {

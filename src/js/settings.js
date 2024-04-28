@@ -17,9 +17,41 @@ resetButton.addEventListener('click', resetSettingsToDefault);
 const buttonCountainer = document.querySelector('.change-board-size');
 buttonCountainer.addEventListener('click', inputHandler);
 
-// document.querySelectorAll('input').forEach((input)=>{
-//   input.addEventListener('change', inputHandler)
-// })
+document.querySelectorAll('input').forEach((input) => {
+  input.addEventListener('change', changeInputByKeyboard);
+});
+
+function changeInputByKeyboard() {
+  const input = this;
+  const paramName = input
+    .closest('.settings-row-container')
+    .querySelector('label').id;
+  const maxValue = parseInt(input.getAttribute('max'));
+  const minValue = parseInt(input.getAttribute('min'));
+  const isInt = Number.isInteger(Number(input.value));
+
+  if (!isInt) {
+    input.classList.toggle('input-invalid');
+    homeButton.disabled = true;
+    return;
+  }
+
+  if (isInt && homeButton.disabled == true) {
+    input.classList.toggle('input-invalid');
+    homeButton.disabled = false;
+  }
+
+  if (input.value > maxValue) {
+    input.value = maxValue;
+    localStorage.setItem(paramName, input.value);
+    return;
+  } else if (input.value < minValue) {
+    input.value = minValue;
+    localStorage.setItem(paramName, input.value);
+    return;
+  }
+  localStorage.setItem(paramName, input.value);
+}
 
 const buttonActions = {
   plus(input, paramName) {
@@ -85,7 +117,7 @@ if ('ontouchstart' in document.body) {
     inputHandler(event);
   });
   buttonCountainer.addEventListener('touchend', (event) => {
-    resetTimer(), removeButtonAnimationOnMobile(event);
+    resetTimer(event), removeButtonAnimationOnMobile(event);
   });
 } else {
   buttonCountainer.addEventListener('mousedown', longPress);
@@ -144,7 +176,6 @@ function setMinesInputRangeValue() {
   minesInput.setAttribute('min', minMines);
   minesInput.setAttribute('max', maxMines);
   createInputPlaceholders();
-  console.log('Max Mines: ' + maxMines);
 }
 
 function saveParamsToLocalStorage() {
@@ -172,6 +203,9 @@ function createInputPlaceholders() {
 function resetSettingsToDefault() {
   const inputs = document.querySelectorAll('input');
   inputs.forEach((input) => {
+    if (input.classList.contains('input-invalid')) {
+      input.classList.remove('input-invalid');
+    }
     input.value = 10;
   });
   currentHeightValue = currentWidthValue = currentMinesAmount = 10;
@@ -194,11 +228,8 @@ function setValuesToInputsFromLS() {
 let timer = null;
 let interval = null;
 function longPress(event) {
-  if (
-    'ontouchstart' in document.body &&
-    event.cancelable == true &&
-    event.target.tagName == 'BUTTON'
-  ) {
+  if (event.target.tagName != 'BUTTON') return;
+  if ('ontouchstart' in document.body && event.cancelable == true) {
     event.preventDefault();
   }
   if ('ontouchstart' in document.body) {
@@ -211,7 +242,8 @@ function longPress(event) {
   }, 500);
 }
 
-function resetTimer() {
+function resetTimer(event) {
+  if (event.target.tagName != 'BUTTON') return;
   clearTimeout(timer);
   clearInterval(interval);
 }
@@ -223,6 +255,7 @@ function addButtonAnimationOnMobile(event) {
 }
 
 function removeButtonAnimationOnMobile(event) {
+  if (event.target.tagName != 'BUTTON') return;
   const button = event.target.closest('button');
   button.style.scale = 1;
   button.style.backgroundColor = '#ffca61';
