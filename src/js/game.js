@@ -1,22 +1,25 @@
 import { createBoard } from './board';
-import { rows, columns } from './consts';
-import { createFlagButton } from './ui';
+import { boardParameters } from './consts';
+import { createBottomButtons } from './ui';
 import { getBoard2dArray, stopWatchHandler } from './utils';
 
-let minesCount = 10;
 const minesLocation = [];
-let gameOver = false;
 let firstClick = true;
+const rows = boardParameters.rows;
+const columns = boardParameters.columns;
+let minesCount = boardParameters.mines;
 let flagsLeft = minesCount;
 
-export const startgame = () => {
-  document.getElementById('start-game-btn').remove();
-
+export const startgame = (event) => {
+  if (event && event.target.id == 'start-game-btn'){
+    document.getElementById('start-game-btn').remove();
+    document.getElementById('settings-btn').remove();
+  }
   
 
   const infoDiv = document.createElement('div');
   infoDiv.classList.add('time-flag-container');
-  infoDiv.innerHTML = `<span id="flags-left">🚩=${flagsLeft}</span><span id="stopwatch">⏱:0</span>`;
+  infoDiv.innerHTML = `<span id="flags-left">🚩=${flagsLeft}</span><span id="stopwatch">⏱:000</span>`;
   document.getElementById('app').prepend(infoDiv);
 
   const board = createBoard();
@@ -24,33 +27,48 @@ export const startgame = () => {
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < columns; c++) {
         board[r][c].addEventListener('click', cellClicked);
+        board[r][c].addEventListener('mousedown', longClickHandler);
+        board[r][c].addEventListener('mouseup', resetLongClick);
       }
     }
   });
-  createFlagButton();
-  console.log('inside startgame(): ');
-  console.log(board);
+  createBottomButtons();
 };
+
+export const restartGame = () => {
+  const gameDiv = document.getElementById('app');
+  gameDiv.innerHTML = '';
+  minesCount = boardParameters.mines
+  minesLocation.length = 0;
+  firstClick = true;
+  flagsLeft = minesCount;
+
+  stopWatchHandler('stop')
+  startgame();
+};
+
+let timer = null;
+function longClickHandler(event) {
+  // if ('ontouchstart' in document.body && event.cancelable == true && event.target.tagName == 'BUTTON') {
+  //   event.preventDefault();
+  // }
+
+  timer = setTimeout(() => {}, 500);
+}
+
+function resetLongClick() {
+  clearTimeout(timer);
+}
 
 function cellClicked() {
   let cell = this;
-  if (gameOver || cell.classList.contains('cell-clicked')) {
-    return;
-  }
-
-  if (firstClick == true) {
-    generateMines(cell.id);
-    stopWatchHandler('start');
-    firstClick = false;
-  }
 
   const flagButton = document.getElementById('flag-btn');
-
   if (flagButton.classList.contains('flag-btn-active')) {
-    if (!cell.innerText) {
+    if (!cell.innerText && cell.classList.contains('board-cell')) {
       cell.innerText = '🚩';
       flagsLeft--;
-    } else {
+    } else if (cell.innerText == '🚩') {
       cell.innerText = '';
       flagsLeft++;
     }
@@ -60,6 +78,16 @@ function cellClicked() {
       return;
     }
     return;
+  }
+
+  if (cell.innerText == '🚩') {
+    return;
+  }
+
+  if (firstClick == true) {
+    generateMines(cell.id);
+    stopWatchHandler('start');
+    firstClick = false;
   }
 
   if (minesLocation.includes(cell.id) && !cell.innerText) {
@@ -187,7 +215,7 @@ const generateMines = (clickedCellId) => {
     if (!condition) continue;
     minesLocation.push(`${r}-${c}`);
     minesCount--;
-    paintTilesWhereMinesAre();
+    //paintTilesWhereMinesAre();
   }
 };
 
@@ -209,16 +237,30 @@ const paintTilesWhereMinesAre = () => {
 const stopGame = (state) => {
   const board = getBoard2dArray();
 
-  stopWatchHandler('stop')
+  stopWatchHandler('stop');
+
+  document
+    .getElementById('board')
+    .insertAdjacentHTML('afterend', `<p id="stop-game-text"></p>`);
+  const stopGameText = document.getElementById('stop-game-text');
 
   if (state === 'lose') {
     revealMines();
+    stopGameText.innerText = 'You Lose...';
+    stopGameText.style.color = '#fb4949';
+
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < columns; c++) {
         board[r][c].removeEventListener('click', cellClicked);
       }
     }
   } else if (state === 'win') {
-    alert('you won!');
+    stopGameText.innerText = 'You Win!';
+    stopGameText.style.color = '#35f43d';
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < columns; c++) {
+        board[r][c].removeEventListener('click', cellClicked);
+      }
+    }
   }
 };

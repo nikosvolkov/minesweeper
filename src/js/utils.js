@@ -1,4 +1,8 @@
-import { rows, columns } from './consts';
+import { boardParameters } from './consts';
+
+const rows = boardParameters.rows
+const columns = boardParameters.columns
+const mines = boardParameters.rows
 
 export const getBoard2dArray = () => {
   const board = [];
@@ -19,9 +23,10 @@ export const stopWatchHandler = (state) => {
   if (state == 'start') {
     stopWatch = setInterval(() => {
       stopWatchValue++;
-      document.getElementById('stopwatch').innerText = `⏱:${stopWatchValue}`;
+      document.getElementById('stopwatch').innerText = `⏱:${String(stopWatchValue).padStart(3,'0')}`;
     }, 1000);
   }else if (state == 'stop'){
     clearInterval(stopWatch)
+    stopWatchValue = 0;
   }
 };

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="src/css/settings.css" />
+    <title>Minesweeper</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="game-header">Minesweeper</h1>
+      <div class="settings-container">
+        <section class="change-board-size">
+          <div class="settings-row-container">
+            <label for="board-width" id="width">Width</label>
+            <div class="settings-right-side">
+              <input type="number" min="8" max="30" class="settings-inputs" />
+              <button
+                data-operation="minus"
+                class="change-value-btns minus-btn-border"
+              >
+                -
+              </button>
+              <button
+                data-operation="plus"
+                class="change-value-btns plus-btn-border"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div class="settings-row-container">
+            <label for="settings-height" id="height">Height</label>
+            <div class="settings-right-side">
+              <input type="number" min="8" max="30" class="settings-inputs" />
+              <button
+                data-operation="minus"
+                class="change-value-btns minus-btn-border"
+              >
+                -
+              </button>
+              <button
+                data-operation="plus"
+                class="change-value-btns plus-btn-border"
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div class="settings-row-container">
+            <div class="mines-percent-group">
+              <label for="settings-mines" id="mines">Mines Amount</label>
+              <span id="mines-amount-percent">20.3%</span>
+            </div>
+            <div class="settings-right-side">
+              <input id="mines-input" type="number" class="settings-inputs" />
+              <button
+                data-operation="minus"
+                class="change-value-btns minus-btn-border"
+              >
+                -
+              </button>
+              <button
+                data-operation="plus"
+                class="change-value-btns plus-btn-border"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </section>
+        <footer class="settings-buttons-container">
+          <button id="home-button" class="settings-btn home-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              fill="#fc6e51"
+            >
+              <use href="images/sprites.svg#settings-home-btn"></use>
+            </svg>
+          </button>
+          <button id="reset-button" class="settings-btn reset-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1920 1920"
+              fill="#000"
+            >
+              <use href="images/sprites.svg#settings-reset-btn"></use>
+            </svg>
+          </button>
+        </footer>
+      </div>
+    </div>
+    <script type="module" src="/src/js/settings.js"></script>
+  </body>
+</html>
